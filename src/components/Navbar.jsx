@@ -16,10 +16,15 @@ import { Divider, ListItemIcon } from "@mui/material";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import PersonAdd from "@mui/icons-material/PersonAdd";
-
+import Login from "@mui/icons-material/Login";
+//? User
+import { useNavigate } from "react-router-dom";
 const pages = ["Products", "Pricing", "Blog"];
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  //? Navbar-Related Functions
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -167,26 +172,29 @@ const Navbar = () => {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              <MenuItem>
+              <MenuItem onClick={() => navigate("/")}>
                 <Avatar /> Profile
               </MenuItem>
-              <MenuItem>
-                <Avatar /> My account
-              </MenuItem>
               <Divider />
-              <MenuItem>
+              <MenuItem onClick={() => navigate("/register")}>
                 <ListItemIcon>
                   <PersonAdd fontSize="small" />
                 </ListItemIcon>
                 Add another account
               </MenuItem>
-              <MenuItem>
+              <MenuItem onClick={() => navigate("/setting")}>
                 <ListItemIcon>
                   <Settings fontSize="small" />
                 </ListItemIcon>
                 Settings
               </MenuItem>
-              <MenuItem>
+              <MenuItem onClick={() => navigate("/login")}>
+                <ListItemIcon>
+                  <Login fontSize="small" />
+                </ListItemIcon>
+                Login
+              </MenuItem>
+              <MenuItem onClick={() => navigate("/")}>
                 <ListItemIcon>
                   <Logout fontSize="small" />
                 </ListItemIcon>

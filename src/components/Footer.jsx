@@ -28,7 +28,7 @@ const Footer = () => {
       }}
     >
       <CssBaseline />
-      <Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="sm">
+      {/* <Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="sm">
         <Typography variant="h2" component="h1" gutterBottom>
           Sticky footer
         </Typography>
@@ -37,7 +37,7 @@ const Footer = () => {
           {"The footer will move as the main element of the page grows."}
         </Typography>
         <Typography variant="body1">Sticky footer placeholder.</Typography>
-      </Container>
+      </Container> */}
       <Box
         component="footer"
         sx={{
