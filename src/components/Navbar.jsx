@@ -19,11 +19,15 @@ import PersonAdd from "@mui/icons-material/PersonAdd";
 import Login from "@mui/icons-material/Login";
 //? User
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useAuth } from "web-firebase";
 const pages = ["Products", "Pricing", "Blog"];
 
 const Navbar = () => {
   const navigate = useNavigate();
-
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  const auth = useSelector((state) => state.auth.auth);
+  const { logOut } = useAuth(auth);
   //? Navbar-Related Functions
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -176,30 +180,41 @@ const Navbar = () => {
                 <Avatar /> Profile
               </MenuItem>
               <Divider />
-              <MenuItem onClick={() => navigate("/register")}>
-                <ListItemIcon>
-                  <PersonAdd fontSize="small" />
-                </ListItemIcon>
-                Add another account
-              </MenuItem>
+              {!userInfo && (
+                <MenuItem onClick={() => navigate("/register")}>
+                  <ListItemIcon>
+                    <PersonAdd fontSize="small" />
+                  </ListItemIcon>
+                  Add Account
+                </MenuItem>
+              )}
               <MenuItem onClick={() => navigate("/setting")}>
                 <ListItemIcon>
                   <Settings fontSize="small" />
                 </ListItemIcon>
                 Settings
               </MenuItem>
-              <MenuItem onClick={() => navigate("/login")}>
-                <ListItemIcon>
-                  <Login fontSize="small" />
-                </ListItemIcon>
-                Login
-              </MenuItem>
-              <MenuItem onClick={() => navigate("/")}>
-                <ListItemIcon>
-                  <Logout fontSize="small" />
-                </ListItemIcon>
-                Logout
-              </MenuItem>
+              {!userInfo && (
+                <MenuItem onClick={() => navigate("/login")}>
+                  <ListItemIcon>
+                    <Login fontSize="small" />
+                  </ListItemIcon>
+                  Login
+                </MenuItem>
+              )}
+              {userInfo && (
+                <MenuItem
+                  onClick={() => {
+                    logOut();
+                    navigate("/");
+                  }}
+                >
+                  <ListItemIcon>
+                    <Logout fontSize="small" />
+                  </ListItemIcon>
+                  Logout
+                </MenuItem>
+              )}
             </Menu>
           </Box>
         </Toolbar>

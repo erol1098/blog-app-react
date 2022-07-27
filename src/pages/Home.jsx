@@ -11,15 +11,10 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import BlogCardFeatured from "../components/BlogCardFeatured";
-import { useDispatch } from "react-redux";
-import { authActions } from "../redux/auth-slice";
-import useFirebase from "../hooks/useFirebase";
-
+import useBlog from "../hooks/useBlog";
 const Home = () => {
-  const dispatch = useDispatch();
-  const { auth, db, userInfo } = useFirebase();
-  dispatch(authActions.setData({ auth, db, userInfo }));
-
+  const { blogs } = useBlog();
+  console.log("blogs", blogs);
   return (
     <Grid container spacing={2} margin={2}>
       <Grid
@@ -59,16 +54,9 @@ const Home = () => {
             rowGap: "1rem",
           }}
         >
-          <BlogCard />
-          <BlogCard />
-          <BlogCard />
-          <BlogCard />
-          <BlogCard />
-          <BlogCard />
-          <BlogCard />
-          <BlogCard />
-          <BlogCard />
-          <BlogCard />
+          {blogs?.map((blog) => (
+            <BlogCard key={blog?.id} data={blog} />
+          ))}
         </Box>
       </Grid>
       <Grid item xs={0} md={4} component="article">

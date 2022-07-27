@@ -1,5 +1,4 @@
 import * as React from "react";
-import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -11,27 +10,11 @@ import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
-
-const BlogCard = () => {
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-
+const BlogCard = ({ data }) => {
+  console.log(data);
   return (
     <Card sx={{ maxWidth: 345, borderRadius: "1rem" }}>
       <CardHeader
@@ -45,20 +28,18 @@ const BlogCard = () => {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
+        title={data?.content.title}
+        subheader={new Date(data?.content.published).toDateString()}
       />
       <CardMedia
         component="img"
         height="194"
-        image="https://picsum.photos/200/300?random=1"
+        image={data?.content.image}
         alt="Paella dish"
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
+          {data?.content.description}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -68,14 +49,10 @@ const BlogCard = () => {
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore>
+        <IconButton aria-label="add to favorites">
+          <VisibilityIcon />
+          {data?.interaction.view}
+        </IconButton>
       </CardActions>
     </Card>
   );

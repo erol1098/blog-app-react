@@ -7,8 +7,13 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Setting from "../pages/Setting";
-
+import { useDispatch } from "react-redux";
+import useFirebase from "../hooks/useFirebase";
+import { authActions } from "../redux/auth-slice";
 const AppRouter = () => {
+  const dispatch = useDispatch();
+  const { auth, db, userInfo } = useFirebase();
+  dispatch(authActions.setData({ auth, db, userInfo }));
   return (
     <BrowserRouter>
       <Navbar />
