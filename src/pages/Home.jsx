@@ -55,7 +55,7 @@ const Home = () => {
           }}
         >
           {blogs?.map((blog) => (
-            <BlogCard key={blog?.id} data={blog} />
+            <BlogCard key={blog?.id} data={blog.data} />
           ))}
         </Box>
       </Grid>

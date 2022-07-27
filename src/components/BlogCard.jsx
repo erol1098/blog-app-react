@@ -11,15 +11,14 @@ import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Box } from "@mui/system";
 
 const BlogCard = ({ data }) => {
-  console.log(data);
   return (
-    <Card sx={{ maxWidth: 345, borderRadius: "1rem" }}>
+    <Card sx={{ maxWidth: 345, height: 500, borderRadius: "1rem" }}>
       <CardMedia
         component="img"
-        height="194"
+        height="200"
         image={data?.imageURL}
         alt="Paella dish"
       />
@@ -29,29 +28,32 @@ const BlogCard = ({ data }) => {
             R
           </Avatar>
         }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
+        sx={{ height: 100 }}
         title={data?.title}
         subheader={new Date(data?.published).toDateString()}
       />
-      <CardContent>
+
+      <CardContent sx={{ height: 100 }}>
         <Typography variant="body2" color="text.secondary">
-          {data?.content}
+          {`${data?.content.slice(0, 150)}...`}
         </Typography>
       </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
+
+      <CardActions
+        sx={{ height: 75, display: "flex", justifyContent: "space-between" }}
+        disableSpacing
+      >
+        <Box>
+          <IconButton aria-label="add to favorites">
+            <FavoriteIcon />
+          </IconButton>
+          <IconButton aria-label="share">
+            <ShareIcon />
+          </IconButton>
+        </Box>
         <IconButton aria-label="add to favorites">
           <VisibilityIcon />
-          {data?.interaction.view}
+          {/* {data?.interaction.view} */}
         </IconButton>
       </CardActions>
     </Card>

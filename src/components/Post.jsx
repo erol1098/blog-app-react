@@ -11,14 +11,14 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useSelector } from "react-redux";
 import { useFirestore } from "web-firebase";
 import { FormControl, Select, InputLabel, MenuItem } from "@mui/material";
-
+import { useNavigate } from "react-router-dom";
 const theme = createTheme();
 
 const Post = () => {
+  const navigate = useNavigate();
   const userInfo = useSelector((state) => state.auth.userInfo);
   const db = useSelector((state) => state.auth.db);
   const { addNewEntry } = useFirestore(db);
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -26,6 +26,7 @@ const Post = () => {
       author: {
         displayName: userInfo?.displayName,
         photoURL: userInfo?.photoURL,
+        uid: userInfo?.uid,
       },
       interaction: {
         like: 0,
@@ -39,6 +40,7 @@ const Post = () => {
       published: new Date().toISOString(),
     };
     addNewEntry("blogs", post);
+    navigate("/");
   };
 
   return (
