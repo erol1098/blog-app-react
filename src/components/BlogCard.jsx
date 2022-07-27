@@ -17,6 +17,12 @@ const BlogCard = ({ data }) => {
   console.log(data);
   return (
     <Card sx={{ maxWidth: 345, borderRadius: "1rem" }}>
+      <CardMedia
+        component="img"
+        height="194"
+        image={data?.imageURL}
+        alt="Paella dish"
+      />
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -28,18 +34,12 @@ const BlogCard = ({ data }) => {
             <MoreVertIcon />
           </IconButton>
         }
-        title={data?.content.title}
-        subheader={new Date(data?.content.published).toDateString()}
-      />
-      <CardMedia
-        component="img"
-        height="194"
-        image={data?.content.image}
-        alt="Paella dish"
+        title={data?.title}
+        subheader={new Date(data?.published).toDateString()}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {data?.content.description}
+          {data?.content}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

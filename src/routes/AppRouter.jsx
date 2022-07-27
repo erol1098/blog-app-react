@@ -10,6 +10,7 @@ import Setting from "../pages/Setting";
 import { useDispatch } from "react-redux";
 import useFirebase from "../hooks/useFirebase";
 import { authActions } from "../redux/auth-slice";
+import Post from "../components/Post";
 const AppRouter = () => {
   const dispatch = useDispatch();
   const { auth, db, userInfo } = useFirebase();
@@ -22,7 +23,8 @@ const AppRouter = () => {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="setting" element={<Setting />} />
-        <Route path="/:id" element={<Blog />} />
+        <Route path=":id" element={<Blog />} />
+        <Route path="post" element={<Post />} />
       </Routes>
       <Footer />
     </BrowserRouter>
