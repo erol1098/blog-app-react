@@ -11,7 +11,15 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import BlogCardFeatured from "../components/BlogCardFeatured";
+import { useDispatch } from "react-redux";
+import { authActions } from "../redux/auth-slice";
+import useFirebase from "../hooks/useFirebase";
+
 const Home = () => {
+  const dispatch = useDispatch();
+  const { auth, db, userInfo } = useFirebase();
+  dispatch(authActions.setData({ auth, db, userInfo }));
+
   return (
     <Grid container spacing={2} margin={2}>
       <Grid

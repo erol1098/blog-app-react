@@ -12,7 +12,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
+import { useAuth } from "web-firebase";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 function Copyright(props) {
   return (
     <Typography
@@ -34,13 +36,21 @@ function Copyright(props) {
 const theme = createTheme();
 
 const Register = () => {
+  const auth = useSelector((state) => state.auth.auth);
+  const { createUser } = useAuth(auth);
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const displayName = `${data.get("firstName")} ${data.get("lastName")}`;
+    console.log(displayName, auth);
+    const email = data.get("email");
+    const password = data.get("password");
+    createUser(displayName, email, password, navigate);
+    // console.log({
+    //   email: data.get("email"),
+    //   password: data.get("password"),
+    // });
   };
 
   return (
