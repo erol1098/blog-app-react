@@ -1,9 +1,8 @@
-import React from 'react'
-import styles from "./App.module.css"
-const App = () => {
-  return (
-    <div>App</div>
-  )
-}
+import React from "react";
+import AppRouter from "./routes/AppRouter";
 
-export default App
+const App = () => {
+  return <AppRouter>App</AppRouter>;
+};
+
+export default App;
