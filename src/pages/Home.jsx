@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import BlogCard from "../components/BlogCard";
 import {
   Grid,
@@ -10,11 +10,20 @@ import {
   InputAdornment,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import BlogCardFeatured from "../components/BlogCardFeatured";
+// import BlogCardFeatured from "../components/BlogCardFeatured";
 import useBlog from "../hooks/useBlog";
 const Home = () => {
   const { blogs } = useBlog();
-  console.log("blogs", blogs);
+  const [query, setQuery] = useState("");
+  const queryChangeHandler = (e) => setQuery(e.target.value);
+  const filteredBlogs = useMemo(
+    () =>
+      blogs?.filter((blog) =>
+        blog.data.title.toLowerCase().includes(query.toLowerCase())
+      ),
+    [blogs, query]
+  );
+  console.log("object", filteredBlogs);
   return (
     <Grid container spacing={2} margin={2}>
       <Grid
@@ -32,6 +41,8 @@ const Home = () => {
             placeholder="Search Blogs"
             type={"search"}
             variant="outlined"
+            value={query}
+            onChange={queryChangeHandler}
             sx={{
               boxShadow:
                 "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
@@ -45,7 +56,7 @@ const Home = () => {
             }}
           />
         </FormControl>
-        <BlogCardFeatured />
+        {/* <BlogCardFeatured data={blogs[0]?.data} /> */}
         <Box
           sx={{
             display: "grid",
@@ -54,8 +65,8 @@ const Home = () => {
             rowGap: "1rem",
           }}
         >
-          {blogs?.map((blog) => (
-            <BlogCard key={blog?.id} data={blog.data} />
+          {filteredBlogs?.map((blog) => (
+            <BlogCard key={blog?.id} data={blog?.data} />
           ))}
         </Box>
       </Grid>

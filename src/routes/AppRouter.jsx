@@ -9,7 +9,7 @@ import Register from "../pages/Register";
 import Setting from "../pages/Setting";
 import { useDispatch } from "react-redux";
 import useFirebase from "../hooks/useFirebase";
-import { authActions } from "../redux/auth-slice";
+import { authActions } from "../redux/authSlice";
 import Post from "../components/Post";
 const AppRouter = () => {
   const dispatch = useDispatch();

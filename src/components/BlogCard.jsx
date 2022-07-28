@@ -12,21 +12,32 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Box } from "@mui/system";
+import { useSelector } from "react-redux";
 
 const BlogCard = ({ data }) => {
+  const userInfo = useSelector((state) => state.auth.userInfo);
+
   return (
-    <Card sx={{ maxWidth: 345, height: 500, borderRadius: "1rem" }}>
+    <Card sx={{ maxWidth: 345, height: 475, borderRadius: "1rem" }}>
       <CardMedia
         component="img"
         height="200"
         image={data?.imageURL}
-        alt="Paella dish"
+        alt="blog-image"
       />
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
-          </Avatar>
+          <Avatar
+            sx={{ bgcolor: red[500] }}
+            aria-label="recipe"
+            src={
+              data.author.photoURL ||
+              `https://ui-avatars.com/api/?name=${userInfo?.displayName?.replace(
+                " ",
+                "+"
+              )}`
+            }
+          />
         }
         sx={{ height: 100 }}
         title={data?.title}

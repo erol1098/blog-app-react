@@ -139,7 +139,15 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleClick} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar
+                  src={
+                    userInfo?.author?.photoURL ||
+                    `https://ui-avatars.com/api/?name=${userInfo?.displayName?.replace(
+                      " ",
+                      "+"
+                    )}`
+                  }
+                />
               </IconButton>
             </Tooltip>
             <Menu
@@ -178,7 +186,16 @@ const Navbar = () => {
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
               <MenuItem onClick={() => navigate("/")}>
-                <Avatar /> Profile
+                <Avatar
+                  src={
+                    userInfo?.author?.photoURL ||
+                    `https://ui-avatars.com/api/?name=${userInfo?.displayName?.replace(
+                      " ",
+                      "+"
+                    )}`
+                  }
+                />
+                Profile
               </MenuItem>
               <Divider />
               {!userInfo && (
