@@ -19,13 +19,8 @@ const useFirebase = () => {
     userObserver(authRes);
     setAuth(authRes);
     setDb(dbRes);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo]);
-
-  console.log("hook", userInfo);
-
   return { auth, db, userInfo };
 };
-
 export default useFirebase;

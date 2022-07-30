@@ -13,16 +13,21 @@ import ShareIcon from "@mui/icons-material/Share";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Box } from "@mui/system";
 import { useSelector } from "react-redux";
-
+import DefaultImage from "../assets/defaultImage.jpg";
+import { Link, useNavigate } from "react-router-dom";
 const BlogCard = ({ data }) => {
+  const navigate = useNavigate();
   const userInfo = useSelector((state) => state.auth.userInfo);
 
   return (
-    <Card sx={{ maxWidth: 345, height: 475, borderRadius: "1rem" }}>
+    <Card
+      sx={{ maxWidth: 345, height: 475, borderRadius: "1rem" }}
+      // onClick={(e) => navigate(`/${data.title}`)}
+    >
       <CardMedia
         component="img"
         height="200"
-        image={data?.imageURL}
+        image={data?.imageURL || DefaultImage}
         alt="blog-image"
       />
       <CardHeader
@@ -47,6 +52,7 @@ const BlogCard = ({ data }) => {
       <CardContent sx={{ height: 100 }}>
         <Typography variant="body2" color="text.secondary">
           {`${data?.content.slice(0, 150)}...`}
+          <Link to={`/${data.title}`}>Read More</Link>
         </Typography>
       </CardContent>
 
