@@ -15,11 +15,9 @@ import { useNavigate } from "react-router-dom";
 import { blogActions } from "../redux/blogSlice";
 
 const theme = createTheme();
-
 const Post = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const userInfo = useSelector((state) => state.auth.userInfo);
   const db = useSelector((state) => state.auth.db);
   const { addNewEntry, getEntries } = useFirestore(db);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,8 +13,10 @@ import { Container } from "@mui/system";
 import { useFirestore } from "web-firebase";
 import { useNavigate } from "react-router-dom";
 import { blogActions } from "../redux/blogSlice";
+import EditModal from "../components/EditModal";
 
 const Blog = () => {
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const selectedBlog = useSelector((state) => state.blog.selectedBlog);
@@ -29,92 +31,95 @@ const Blog = () => {
   };
 
   const handleEdit = () => {
-    navigate("/post", { state: selectedBlog });
+    setOpen(true);
   };
 
   return (
-    <Container maxWidth="lg">
-      <Stack marginX={5} marginY={5} spacing={3}>
-        <Typography variant="h4" fontWeight={"bold"} component={"h1"}>
-          {data.title}
-        </Typography>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "1.2rem",
-              marginLeft: "1rem",
-            }}
-          >
-            <Avatar
-              src={
-                data.author.photoURL ||
-                `https://ui-avatars.com/api/?name=${data.author.displayName?.replace(
-                  " ",
-                  "+"
-                )}`
-              }
-            />
-            <Box>
-              <Typography variant="caption">Author</Typography>
-              <Typography variant="body1" fontWeight={"bold"}>
-                {data.author.displayName}
-              </Typography>
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              gap: "1rem",
-              marginRight: "1rem",
-            }}
-          >
-            <IconButton aria-label="delete" onClick={handleDelete}>
-              <DeleteIcon />
-            </IconButton>
-            <IconButton aria-label="edit" onClick={handleEdit}>
-              <EditIcon />
-            </IconButton>
-            <IconButton aria-label="add to favorites">
-              <FavoriteIcon />
-            </IconButton>
-            <IconButton aria-label="share">
-              <ShareIcon />
-            </IconButton>
-
-            <IconButton aria-label="add to favorites">
-              <VisibilityIcon />
-              {/* {data?.interaction.view} */}
-            </IconButton>
-          </Box>
-        </Box>
-        <Divider />
-        <Box display={"flex"} flexDirection={"column"} gap={3}>
-          <Typography variant="h6" fontWeight={"bold"}>
+    <>
+      {open && <EditModal open={open} setOpen={setOpen} />}
+      <Container maxWidth="lg">
+        <Stack marginX={5} marginY={5} spacing={3}>
+          <Typography variant="h4" fontWeight={"bold"} component={"h1"}>
             {data.title}
           </Typography>
-          <Typography variant="body1">{data.content}</Typography>
-        </Box>
-      </Stack>
-      <Box
-        display={"block"}
-        mx={"auto"}
-        maxWidth={1200}
-        component="img"
-        mt={3}
-        sx={{ borderRadius: "1rem" }}
-        src={data.imageURL || defaultImage}
-        alt=""
-      />
-    </Container>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "1.2rem",
+                marginLeft: "1rem",
+              }}
+            >
+              <Avatar
+                src={
+                  data.author.photoURL ||
+                  `https://ui-avatars.com/api/?name=${data.author.displayName?.replace(
+                    " ",
+                    "+"
+                  )}`
+                }
+              />
+              <Box>
+                <Typography variant="caption">Author</Typography>
+                <Typography variant="body1" fontWeight={"bold"}>
+                  {data.author.displayName}
+                </Typography>
+              </Box>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                gap: "1rem",
+                marginRight: "1rem",
+              }}
+            >
+              <IconButton aria-label="delete" onClick={handleDelete}>
+                <DeleteIcon />
+              </IconButton>
+              <IconButton aria-label="edit" onClick={handleEdit}>
+                <EditIcon />
+              </IconButton>
+              <IconButton aria-label="add to favorites">
+                <FavoriteIcon />
+              </IconButton>
+              <IconButton aria-label="share">
+                <ShareIcon />
+              </IconButton>
+
+              <IconButton aria-label="add to favorites">
+                <VisibilityIcon />
+                {/* {data?.interaction.view} */}
+              </IconButton>
+            </Box>
+          </Box>
+          <Divider />
+          <Box display={"flex"} flexDirection={"column"} gap={3}>
+            <Typography variant="h6" fontWeight={"bold"}>
+              {data.title}
+            </Typography>
+            <Typography variant="body1">{data.content}</Typography>
+          </Box>
+        </Stack>
+        <Box
+          display={"block"}
+          mx={"auto"}
+          maxWidth={1200}
+          component="img"
+          mt={3}
+          sx={{ borderRadius: "1rem" }}
+          src={data.imageURL || defaultImage}
+          alt=""
+        />
+      </Container>
+    </>
   );
 };
 export default Blog;
