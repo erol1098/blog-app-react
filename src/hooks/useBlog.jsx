@@ -22,8 +22,10 @@
 
 import { useEffect, useState } from "react";
 import { useFirestore } from "web-firebase";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { blogActions } from "../redux/blogSlice";
 const useBlog = () => {
+  const dispatch = useDispatch();
   const [blogs, setBlogs] = useState([]);
   const db = useSelector((state) => state.auth.db);
   const { getEntries } = useFirestore(db);
@@ -32,6 +34,7 @@ const useBlog = () => {
       try {
         const res = await getEntries("blogs");
         setBlogs(res);
+        dispatch(blogActions.setBlogs(res));
       } catch (error) {}
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps

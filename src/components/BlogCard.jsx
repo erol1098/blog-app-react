@@ -12,18 +12,15 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Box } from "@mui/system";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import DefaultImage from "../assets/defaultImage.jpg";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { blogActions } from "../redux/blogSlice";
 const BlogCard = ({ data }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userInfo = useSelector((state) => state.auth.userInfo);
-
   return (
-    <Card
-      sx={{ maxWidth: 345, height: 475, borderRadius: "1rem" }}
-      // onClick={(e) => navigate(`/${data.title}`)}
-    >
+    <Card sx={{ maxWidth: 345, height: 475, borderRadius: "1rem" }}>
       <CardMedia
         component="img"
         height="200"
@@ -37,7 +34,7 @@ const BlogCard = ({ data }) => {
             aria-label="recipe"
             src={
               data.author.photoURL ||
-              `https://ui-avatars.com/api/?name=${userInfo?.displayName?.replace(
+              `https://ui-avatars.com/api/?name=${data.author.displayName.replace(
                 " ",
                 "+"
               )}`
@@ -52,7 +49,18 @@ const BlogCard = ({ data }) => {
       <CardContent sx={{ height: 100 }}>
         <Typography variant="body2" color="text.secondary">
           {`${data?.content.slice(0, 150)}...`}
-          <Link to={`/${data.title}`}>Read More</Link>
+          {/* <Link to={`/${data.title}`}>Read More</Link> */}
+          <Typography
+            variant="body1"
+            component={"span"}
+            sx={{ cursor: "pointer", textDecoration: "underline" }}
+            onClick={() => {
+              dispatch(blogActions.setSelectedBlog(data));
+              navigate(`/${data.title}`, { state: data });
+            }}
+          >
+            Read More
+          </Typography>
         </Typography>
       </CardContent>
 

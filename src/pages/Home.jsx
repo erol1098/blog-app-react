@@ -12,7 +12,10 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 // import BlogCardFeatured from "../components/BlogCardFeatured";
 import useBlog from "../hooks/useBlog";
+import { blogActions } from "../redux/blogSlice";
+import { useDispatch, useSelector } from "react-redux";
 const Home = () => {
+  const dispatch = useDispatch();
   const { blogs } = useBlog();
   const [query, setQuery] = useState("");
   const queryChangeHandler = (e) => setQuery(e.target.value);
@@ -23,7 +26,9 @@ const Home = () => {
       ),
     [blogs, query]
   );
-  console.log("object", filteredBlogs);
+  dispatch(blogActions.setBlogs(filteredBlogs));
+  // console.log("object", filteredBlogs);
+  // console.log(useSelector(state=>state.));
   return (
     <Grid container spacing={2} margin={2}>
       <Grid
