@@ -13,7 +13,6 @@ import { useSelector } from "react-redux";
 import { Container } from "@mui/system";
 
 const Root = styled("div")(({ theme }) => ({
-  // padding: theme.spacing(1),
   [theme.breakpoints.up("sm")]: {
     gridTemplateColumns: "1fr 1fr",
   },

@@ -19,21 +19,19 @@ const Blog = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.auth.userInfo);
   const selectedBlog = useSelector((state) => state.blog.selectedBlog);
   const { id, data } = selectedBlog;
   const db = useSelector((state) => state.auth.db);
   const { deleteEntry, getEntries } = useFirestore(db);
-
   const handleDelete = () => {
     deleteEntry("blogs", id);
     getEntries("blogs").then((res) => dispatch(blogActions.setBlogs(res)));
     navigate(-1);
   };
-
   const handleEdit = () => {
     setOpen(true);
   };
-
   return (
     <>
       {open && <EditModal open={open} setOpen={setOpen} />}
@@ -46,6 +44,8 @@ const Blog = () => {
             sx={{
               display: "flex",
               justifyContent: "space-between",
+              flexWrap: "wrap",
+              rowGap: "1rem",
             }}
           >
             <Box
@@ -54,7 +54,6 @@ const Blog = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 gap: "1.2rem",
-                marginLeft: "1rem",
               }}
             >
               <Avatar
@@ -78,15 +77,18 @@ const Blog = () => {
                 display: "flex",
                 justifyContent: "center",
                 gap: "1rem",
-                marginRight: "1rem",
               }}
             >
-              <IconButton aria-label="delete" onClick={handleDelete}>
-                <DeleteIcon />
-              </IconButton>
-              <IconButton aria-label="edit" onClick={handleEdit}>
-                <EditIcon />
-              </IconButton>
+              {userInfo.uid === data.author.uid && (
+                <>
+                  <IconButton aria-label="delete" onClick={handleDelete}>
+                    <DeleteIcon />
+                  </IconButton>
+                  <IconButton aria-label="edit" onClick={handleEdit}>
+                    <EditIcon />
+                  </IconButton>
+                </>
+              )}
               <IconButton aria-label="add to favorites">
                 <FavoriteIcon />
               </IconButton>
@@ -108,16 +110,18 @@ const Blog = () => {
             <Typography variant="body1">{data.content}</Typography>
           </Box>
         </Stack>
-        <Box
-          display={"block"}
-          mx={"auto"}
-          maxWidth={1200}
-          component="img"
-          mt={3}
-          sx={{ borderRadius: "1rem" }}
-          src={data.imageURL || defaultImage}
-          alt=""
-        />
+        <Stack marginY={5} spacing={3}>
+          <Box
+            // display={"block"}
+            // mx={"auto"}
+            maxWidth={1200}
+            component="img"
+            mt={3}
+            sx={{ borderRadius: "1rem" }}
+            src={data.imageURL || defaultImage}
+            alt=""
+          />
+        </Stack>
       </Container>
     </>
   );

@@ -28,7 +28,6 @@ const style = {
 const theme = createTheme();
 
 const EditModal = ({ open, setOpen }) => {
-  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   //////////////////////////////////////////////////
   const dispatch = useDispatch();
@@ -63,98 +62,90 @@ const EditModal = ({ open, setOpen }) => {
   };
   /////////////////////////////////////////////////////
   return (
-    <div>
-      <Button onClick={handleOpen}>Open modal</Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="xs">
-              <CssBaseline />
+    <Modal open={open} onClose={handleClose}>
+      <Box sx={style}>
+        <ThemeProvider theme={theme}>
+          <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <Box
+              sx={{
+                marginTop: 8,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                Edit Post
+              </Typography>
               <Box
-                sx={{
-                  marginTop: 8,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
+                component="form"
+                onSubmit={handleSubmit}
+                noValidate
+                sx={{ mt: 1 }}
               >
-                <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                  <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                  Edit Post
-                </Typography>
-                <Box
-                  component="form"
-                  onSubmit={handleSubmit}
-                  noValidate
-                  sx={{ mt: 1 }}
-                >
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="title"
-                    label="Title"
-                    name="title"
-                    autoFocus
-                    defaultValue={data.title}
-                  />
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    multiline
-                    rows={7}
-                    name="content"
-                    label="Content"
-                    type="text"
-                    id="content"
-                    defaultValue={data.content}
-                  />
-                  <FormControl fullWidth>
-                    <InputLabel id="category">Category</InputLabel>
-                    <Select
-                      label="Category"
-                      name="category"
-                      id="category"
-                      defaultValue={data.category}
-                    >
-                      <MenuItem value={"general"}>General</MenuItem>
-                      <MenuItem value={"sports"}>Sports</MenuItem>
-                      <MenuItem value={"politics"}>Politics</MenuItem>
-                    </Select>
-                  </FormControl>
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="imageURL"
-                    label="Image URL"
-                    type="text"
-                    id="imageURL"
-                    defaultValue={data.imageURL}
-                  />
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="title"
+                  label="Title"
+                  name="title"
+                  autoFocus
+                  defaultValue={data.title}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  multiline
+                  rows={7}
+                  name="content"
+                  label="Content"
+                  type="text"
+                  id="content"
+                  defaultValue={data.content}
+                />
+                <FormControl fullWidth>
+                  <InputLabel id="category">Category</InputLabel>
+                  <Select
+                    label="Category"
+                    name="category"
+                    id="category"
+                    defaultValue={data.category}
                   >
-                    Post
-                  </Button>
-                </Box>
+                    <MenuItem value={"general"}>General</MenuItem>
+                    <MenuItem value={"sports"}>Sports</MenuItem>
+                    <MenuItem value={"politics"}>Politics</MenuItem>
+                  </Select>
+                </FormControl>
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="imageURL"
+                  label="Image URL"
+                  type="text"
+                  id="imageURL"
+                  defaultValue={data.imageURL}
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Post
+                </Button>
               </Box>
-            </Container>
-          </ThemeProvider>
-        </Box>
-      </Modal>
-    </div>
+            </Box>
+          </Container>
+        </ThemeProvider>
+      </Box>
+    </Modal>
   );
 };
 export default EditModal;
