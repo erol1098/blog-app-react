@@ -138,7 +138,7 @@ const EditModal = ({ open, setOpen }) => {
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >
-                  Post
+                  Edit Post
                 </Button>
               </Box>
             </Box>

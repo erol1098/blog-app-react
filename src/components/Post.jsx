@@ -45,7 +45,6 @@ const Post = () => {
     getEntries("blogs").then((res) => dispatch(blogActions.setBlogs(res)));
     navigate("/");
   };
-
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -93,11 +92,10 @@ const Post = () => {
             <FormControl fullWidth>
               <InputLabel id="category">Category</InputLabel>
               <Select
-                // value={age}
                 label="Category"
                 name="category"
                 id="category"
-                // onChange={handleChange}
+                defaultValue={"general"}
               >
                 <MenuItem value={"general"}>General</MenuItem>
                 <MenuItem value={"sports"}>Sports</MenuItem>

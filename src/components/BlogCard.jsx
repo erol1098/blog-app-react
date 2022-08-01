@@ -21,7 +21,7 @@ const BlogCard = ({ blog }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   return (
-    <Card sx={{ maxWidth: 345, height: 475, borderRadius: "1rem" }}>
+    <Card sx={{ width: 345, height: 475, borderRadius: "1rem" }}>
       <CardMedia
         component="img"
         height="200"

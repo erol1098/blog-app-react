@@ -11,12 +11,12 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import { Divider, ListItemIcon } from "@mui/material";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Login from "@mui/icons-material/Login";
+import Logo from "../assets/logo.png";
 //? User
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -47,10 +47,16 @@ const Navbar = () => {
     setAnchorElNav(event.currentTarget);
   };
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ paddingY: "0.5rem" }} color="secondary">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <Box
+            component={"img"}
+            src={Logo}
+            width="48px"
+            alt=""
+            sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+          />
           <Typography
             variant="h6"
             noWrap
@@ -59,13 +65,12 @@ const Navbar = () => {
               display: { xs: "none", md: "flex" },
               fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: ".3rem",
               color: "inherit",
               cursor: "pointer",
             }}
             onClick={() => navigate("/")}
           >
-            LOGO
+            Blogger
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -105,9 +110,18 @@ const Navbar = () => {
               >
                 <Typography textAlign="center">Add a post</Typography>
               </MenuItem>
+              <MenuItem>
+                <Typography textAlign="center">About</Typography>
+              </MenuItem>
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          <Box
+            component={"img"}
+            src={Logo}
+            width="48px"
+            alt=""
+            sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
+          />
           <Typography
             variant="h5"
             noWrap
@@ -118,12 +132,12 @@ const Navbar = () => {
               flexGrow: 1,
               fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: ".3rem",
+
               color: "inherit",
               cursor: "pointer",
             }}
           >
-            LOGO
+            Blogger
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
@@ -134,6 +148,9 @@ const Navbar = () => {
               sx={{ my: 2, color: "white", display: "block" }}
             >
               Add a post
+            </Button>
+            <Button sx={{ my: 2, color: "white", display: "block" }}>
+              About
             </Button>
           </Box>
           <Box sx={{ flexGrow: 0 }}>
