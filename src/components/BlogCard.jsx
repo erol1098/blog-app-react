@@ -55,6 +55,7 @@ const BlogCard = ({ blog }) => {
             component={"span"}
             sx={{ cursor: "pointer", textDecoration: "underline" }}
             onClick={() => {
+              sessionStorage.setItem("selectedBlog", JSON.stringify(blog));
               dispatch(blogActions.setSelectedBlog(blog));
               navigate(`/${data.title}`);
             }}

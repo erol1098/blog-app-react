@@ -21,7 +21,11 @@ const Blog = () => {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
   const selectedBlog = useSelector((state) => state.blog.selectedBlog);
-  const { id, data } = selectedBlog;
+  const savedBlog = selectedBlog
+    ? selectedBlog
+    : JSON.parse(sessionStorage.getItem("selectedBlog"));
+
+  const { id, data } = savedBlog;
   const db = useSelector((state) => state.auth.db);
   const { deleteEntry, getEntries } = useFirestore(db);
   const handleDelete = () => {
@@ -95,7 +99,7 @@ const Blog = () => {
                 gap: "1rem",
               }}
             >
-              {userInfo.uid === data.author.uid && (
+              {userInfo?.uid === data?.author.uid && (
                 <>
                   <IconButton aria-label="delete" onClick={handleDelete}>
                     <DeleteIcon />
