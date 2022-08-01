@@ -37,6 +37,22 @@ const Blog = () => {
       {open && <EditModal open={open} setOpen={setOpen} />}
       <Container maxWidth="lg">
         <Stack marginX={5} marginY={5} spacing={3}>
+          <Box>
+            <Typography variant="h6" component={"span"}>
+              {new Date(data?.published).toLocaleDateString("en-us", {
+                day: "numeric",
+                month: "short",
+              })}{" "}
+              |
+            </Typography>
+            <Typography variant="h6" color={"blue"} component={"span"}>
+              {" "}
+              {data?.category.replace(
+                data?.category[0],
+                data?.category[0].toUpperCase()
+              )}
+            </Typography>
+          </Box>
           <Typography variant="h4" fontWeight={"bold"} component={"h1"}>
             {data.title}
           </Typography>

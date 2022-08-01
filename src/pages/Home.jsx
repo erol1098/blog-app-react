@@ -13,10 +13,10 @@ import { useSelector } from "react-redux";
 import { Container } from "@mui/system";
 
 const Root = styled("div")(({ theme }) => ({
-  [theme.breakpoints.up("sm")]: {
+  [theme.breakpoints.up("md")]: {
     gridTemplateColumns: "1fr 1fr",
   },
-  [theme.breakpoints.up("md")]: {
+  [theme.breakpoints.up("lg")]: {
     gridTemplateColumns: "1fr 1fr 1fr",
   },
 }));

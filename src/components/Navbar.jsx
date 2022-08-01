@@ -58,7 +58,7 @@ const Navbar = () => {
             sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
           />
           <Typography
-            variant="h6"
+            variant="h4"
             noWrap
             sx={{
               mr: 2,
@@ -123,7 +123,7 @@ const Navbar = () => {
             sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
           />
           <Typography
-            variant="h5"
+            variant="h4"
             noWrap
             onClick={() => navigate("/")}
             sx={{
@@ -132,14 +132,20 @@ const Navbar = () => {
               flexGrow: 1,
               fontFamily: "monospace",
               fontWeight: 700,
-
               color: "inherit",
               cursor: "pointer",
             }}
           >
             Blogger
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", md: "flex" },
+              justifyContent: "flex-end",
+              marginX: "1rem",
+            }}
+          >
             <Button
               onClick={(e) => {
                 handleCloseNavMenu();
