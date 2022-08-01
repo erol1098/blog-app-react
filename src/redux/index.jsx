@@ -4,7 +4,7 @@ import blogSlice from "./blogSlice";
 const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
-    blogs: blogSlice.reducer,
+    blog: blogSlice.reducer,
   },
 });
 export default store;

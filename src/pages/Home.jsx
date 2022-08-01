@@ -1,8 +1,7 @@
 import React, { useState, useMemo } from "react";
 import BlogCard from "../components/BlogCard";
+import { styled } from "@mui/material/styles";
 import {
-  Grid,
-  Stack,
   Box,
   Divider,
   TextField,
@@ -13,7 +12,18 @@ import SearchIcon from "@mui/icons-material/Search";
 // import BlogCardFeatured from "../components/BlogCardFeatured";
 import useBlog from "../hooks/useBlog";
 import { blogActions } from "../redux/blogSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { Container } from "@mui/system";
+
+const Root = styled("div")(({ theme }) => ({
+  // padding: theme.spacing(1),
+  [theme.breakpoints.up("sm")]: {
+    gridTemplateColumns: "1fr 1fr",
+  },
+  [theme.breakpoints.up("md")]: {
+    gridTemplateColumns: "1fr 1fr 1fr",
+  },
+}));
 const Home = () => {
   const dispatch = useDispatch();
   const { blogs } = useBlog();
@@ -29,13 +39,10 @@ const Home = () => {
   dispatch(blogActions.setBlogs(filteredBlogs));
   // console.log("object", filteredBlogs);
   // console.log(useSelector(state=>state.));
+
   return (
-    <Grid container spacing={2} margin={2}>
-      <Grid
-        item
-        xs={12}
-        sm={8}
-        md={8}
+    <Container maxWidth="lg">
+      <Box
         paddingX={2}
         sx={{ display: "flex", flexDirection: "column", gap: "2rem" }}
         component="main"
@@ -61,33 +68,21 @@ const Home = () => {
             }}
           />
         </FormControl>
-        {/* <BlogCardFeatured data={blogs[0]?.data} /> */}
-        <Box
+        <Divider />
+        <Root
           sx={{
             display: "grid",
-            gridTemplateColumns: "1fr 1fr 1fr",
+            gridTemplateColumns: "1fr",
             columnGap: "1rem",
-            rowGap: "1rem",
+            rowGap: "2rem",
           }}
         >
           {filteredBlogs?.map((blog) => (
             <BlogCard key={blog?.id} data={blog?.data} />
           ))}
-        </Box>
-      </Grid>
-      <Grid item xs={0} md={4} component="article">
-        <Stack
-          direction="column"
-          divider={<Divider orientation="horizontal" flexItem />}
-          spacing={2}
-        >
-          <p>Lorem ipsum dolor sit amet.</p>
-          <p>Lorem ipsum dolor sit amet.</p>
-          <p>Lorem ipsum dolor sit amet.</p>
-          <p>Lorem ipsum dolor sit amet.</p>
-        </Stack>
-      </Grid>
-    </Grid>
+        </Root>
+      </Box>
+    </Container>
   );
 };
 
