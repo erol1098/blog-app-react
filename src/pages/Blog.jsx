@@ -1,22 +1,42 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Typography, Divider, Avatar, IconButton } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import DeleteIcon from "@mui/icons-material/DeleteRounded";
+import EditIcon from "@mui/icons-material/EditRounded";
 import defaultImage from "../assets/defaultImage.jpg";
 import { Container } from "@mui/system";
+import { useFirestore } from "web-firebase";
+import { useNavigate } from "react-router-dom";
+import { blogActions } from "../redux/blogSlice";
 
 const Blog = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const selectedBlog = useSelector((state) => state.blog.selectedBlog);
-  console.log("selectedBlog", selectedBlog);
+  const { id, data } = selectedBlog;
+  const db = useSelector((state) => state.auth.db);
+  const { deleteEntry, getEntries } = useFirestore(db);
+
+  const handleDelete = () => {
+    deleteEntry("blogs", id);
+    getEntries("blogs").then((res) => dispatch(blogActions.setBlogs(res)));
+    navigate(-1);
+  };
+
+  const handleEdit = () => {
+    navigate("/post", { state: selectedBlog });
+  };
+
   return (
     <Container maxWidth="lg">
       <Stack marginX={5} marginY={5} spacing={3}>
         <Typography variant="h4" fontWeight={"bold"} component={"h1"}>
-          {selectedBlog.title}
+          {data.title}
         </Typography>
         <Box
           sx={{
@@ -35,8 +55,8 @@ const Blog = () => {
           >
             <Avatar
               src={
-                selectedBlog.author.photoURL ||
-                `https://ui-avatars.com/api/?name=${selectedBlog.author.displayName?.replace(
+                data.author.photoURL ||
+                `https://ui-avatars.com/api/?name=${data.author.displayName?.replace(
                   " ",
                   "+"
                 )}`
@@ -45,7 +65,7 @@ const Blog = () => {
             <Box>
               <Typography variant="caption">Author</Typography>
               <Typography variant="body1" fontWeight={"bold"}>
-                {selectedBlog.author.displayName}
+                {data.author.displayName}
               </Typography>
             </Box>
           </Box>
@@ -57,6 +77,12 @@ const Blog = () => {
               marginRight: "1rem",
             }}
           >
+            <IconButton aria-label="delete" onClick={handleDelete}>
+              <DeleteIcon />
+            </IconButton>
+            <IconButton aria-label="edit" onClick={handleEdit}>
+              <EditIcon />
+            </IconButton>
             <IconButton aria-label="add to favorites">
               <FavoriteIcon />
             </IconButton>
@@ -73,16 +99,19 @@ const Blog = () => {
         <Divider />
         <Box display={"flex"} flexDirection={"column"} gap={3}>
           <Typography variant="h6" fontWeight={"bold"}>
-            {selectedBlog.title}
+            {data.title}
           </Typography>
-          <Typography variant="body2">{selectedBlog.content}</Typography>
+          <Typography variant="body1">{data.content}</Typography>
         </Box>
       </Stack>
       <Box
+        display={"block"}
+        mx={"auto"}
+        maxWidth={1200}
         component="img"
         mt={3}
         sx={{ borderRadius: "1rem" }}
-        src={selectedBlog.imageURL || defaultImage}
+        src={data.imageURL || defaultImage}
         alt=""
       />
     </Container>

@@ -8,17 +8,21 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useFirestore } from "web-firebase";
 import { FormControl, Select, InputLabel, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { blogActions } from "../redux/blogSlice";
+
 const theme = createTheme();
 
 const Post = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const userInfo = useSelector((state) => state.auth.userInfo);
   const db = useSelector((state) => state.auth.db);
-  const { addNewEntry } = useFirestore(db);
+  const { addNewEntry, getEntries } = useFirestore(db);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -40,6 +44,7 @@ const Post = () => {
       published: new Date().toISOString(),
     };
     addNewEntry("blogs", post);
+    getEntries("blogs").then((res) => dispatch(blogActions.setBlogs(res)));
     navigate("/");
   };
 

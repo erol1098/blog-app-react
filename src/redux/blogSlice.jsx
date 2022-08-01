@@ -8,9 +8,7 @@ const blogSlice = createSlice({
   },
   reducers: {
     setBlogs(state, action) {
-      // console.log(action);
       state.blogs = action.payload;
-      // console.log("state", state.blogs);
     },
     setSelectedBlog(state, action) {
       state.selectedBlog = action.payload;

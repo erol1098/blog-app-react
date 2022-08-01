@@ -16,7 +16,8 @@ import { useDispatch } from "react-redux";
 import DefaultImage from "../assets/defaultImage.jpg";
 import { useNavigate } from "react-router-dom";
 import { blogActions } from "../redux/blogSlice";
-const BlogCard = ({ data }) => {
+const BlogCard = ({ blog }) => {
+  const { data } = blog;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   return (
@@ -49,14 +50,13 @@ const BlogCard = ({ data }) => {
       <CardContent sx={{ height: 100 }}>
         <Typography variant="body2" color="text.secondary">
           {`${data?.content.slice(0, 150)}...`}
-          {/* <Link to={`/${data.title}`}>Read More</Link> */}
           <Typography
             variant="body1"
             component={"span"}
             sx={{ cursor: "pointer", textDecoration: "underline" }}
             onClick={() => {
-              dispatch(blogActions.setSelectedBlog(data));
-              navigate(`/${data.title}`, { state: data });
+              dispatch(blogActions.setSelectedBlog(blog));
+              navigate(`/${data.title}`);
             }}
           >
             Read More

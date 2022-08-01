@@ -9,10 +9,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-// import BlogCardFeatured from "../components/BlogCardFeatured";
-import useBlog from "../hooks/useBlog";
-import { blogActions } from "../redux/blogSlice";
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Container } from "@mui/system";
 
 const Root = styled("div")(({ theme }) => ({
@@ -25,8 +22,7 @@ const Root = styled("div")(({ theme }) => ({
   },
 }));
 const Home = () => {
-  const dispatch = useDispatch();
-  const { blogs } = useBlog();
+  const blogs = useSelector((state) => state.blog.blogs);
   const [query, setQuery] = useState("");
   const queryChangeHandler = (e) => setQuery(e.target.value);
   const filteredBlogs = useMemo(
@@ -36,10 +32,6 @@ const Home = () => {
       ),
     [blogs, query]
   );
-  dispatch(blogActions.setBlogs(filteredBlogs));
-  // console.log("object", filteredBlogs);
-  // console.log(useSelector(state=>state.));
-
   return (
     <Container maxWidth="lg">
       <Box
@@ -75,10 +67,11 @@ const Home = () => {
             gridTemplateColumns: "1fr",
             columnGap: "1rem",
             rowGap: "2rem",
+            margin: "auto",
           }}
         >
           {filteredBlogs?.map((blog) => (
-            <BlogCard key={blog?.id} data={blog?.data} />
+            <BlogCard key={blog?.id} blog={blog} />
           ))}
         </Root>
       </Box>
