@@ -8,11 +8,13 @@ function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary">
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
+      {new Date().getFullYear()}{" "}
+      <Link
+        color="inherit"
+        href="https://www.linkedin.com/in/erol-mahmuto%C4%9Flu/"
+      >
+        Erol Mahmutoglu
+      </Link>
     </Typography>
   );
 }
@@ -33,7 +35,10 @@ const Footer = () => {
     >
       <Container maxWidth="sm">
         <Typography variant="body1">
-          My sticky footer can be found here.
+          Blogger site designed by{" "}
+          <Link href="https://github.com/erol1098" target={"_blank"}>
+            erol1098
+          </Link>
         </Typography>
         <Copyright />
       </Container>

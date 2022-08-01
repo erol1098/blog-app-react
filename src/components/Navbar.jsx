@@ -213,7 +213,7 @@ const Navbar = () => {
                     )}`
                   }
                 />
-                {userInfo?.displayName}
+                {userInfo?.displayName || "Profile"}
               </MenuItem>
               <Divider />
               {!userInfo && (
