@@ -34,6 +34,7 @@ const EditModal = ({ open, setOpen }) => {
   const db = useSelector((state) => state.auth.db);
   const { updateEntry, getEntries } = useFirestore(db);
   const selectedBlog = useSelector((state) => state.blog.selectedBlog);
+
   const { id, data } = selectedBlog;
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -56,7 +57,18 @@ const EditModal = ({ open, setOpen }) => {
       published: new Date().toISOString(),
     };
     updateEntry("blogs", id, post);
-    getEntries("blogs").then((res) => dispatch(blogActions.setBlogs(res)));
+
+    (async () => {
+      try {
+        dispatch(blogActions.setLoading(true));
+        const res = await getEntries("blogs");
+        dispatch(blogActions.setBlogs(res));
+        dispatch(blogActions.setLoading(false));
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+
     dispatch(blogActions.setSelectedBlog({ id, data: post }));
     handleClose();
   };

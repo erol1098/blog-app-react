@@ -29,17 +29,21 @@ const useBlog = () => {
   const [blogs, setBlogs] = useState([]);
   const db = useSelector((state) => state.auth.db);
   const { getEntries } = useFirestore(db);
+
   useEffect(() => {
     (async () => {
       try {
+        dispatch(blogActions.setLoading(true));
         const res = await getEntries("blogs");
         setBlogs(res);
         dispatch(blogActions.setBlogs(res));
-      } catch (error) {}
+        dispatch(blogActions.setLoading(false));
+      } catch (error) {
+        console.log(error);
+      }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [db]);
-
   return { blogs };
 };
 

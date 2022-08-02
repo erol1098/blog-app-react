@@ -30,7 +30,14 @@ const Blog = () => {
   const { deleteEntry, getEntries } = useFirestore(db);
   const handleDelete = () => {
     deleteEntry("blogs", id);
-    getEntries("blogs").then((res) => dispatch(blogActions.setBlogs(res)));
+    (async () => {
+      try {
+        const res = await getEntries("blogs");
+        dispatch(blogActions.setBlogs(res));
+      } catch (error) {
+        console.log(error);
+      }
+    })();
     navigate(-1);
   };
   const handleEdit = () => {

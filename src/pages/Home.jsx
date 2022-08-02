@@ -11,7 +11,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import { useSelector } from "react-redux";
 import { Container } from "@mui/system";
-
+import LoadingSkeleton from "../components/Skeleton";
 const Root = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("md")]: {
     gridTemplateColumns: "1fr 1fr",
@@ -21,6 +21,8 @@ const Root = styled("div")(({ theme }) => ({
   },
 }));
 const Home = () => {
+  const loading = useSelector((state) => state.blog.loading);
+
   const blogs = useSelector((state) => state.blog.blogs);
   const [query, setQuery] = useState("");
   const queryChangeHandler = (e) => setQuery(e.target.value);
@@ -60,19 +62,22 @@ const Home = () => {
           />
         </FormControl>
         <Divider />
-        <Root
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "1fr",
-            columnGap: "1rem",
-            rowGap: "2rem",
-            margin: "auto",
-          }}
-        >
-          {filteredBlogs?.map((blog) => (
-            <BlogCard key={blog?.id} blog={blog} />
-          ))}
-        </Root>
+        {loading && <LoadingSkeleton />}
+        {!loading && (
+          <Root
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "1fr",
+              columnGap: "1rem",
+              rowGap: "2rem",
+              margin: "auto",
+            }}
+          >
+            {filteredBlogs?.map((blog) => (
+              <BlogCard key={blog?.id} blog={blog} />
+            ))}
+          </Root>
+        )}
       </Box>
     </Container>
   );

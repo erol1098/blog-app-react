@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -20,6 +20,7 @@ const BlogCard = ({ blog }) => {
   const { data } = blog;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   return (
     <Card sx={{ width: 320, height: 475, borderRadius: "1rem" }}>
       <CardMedia

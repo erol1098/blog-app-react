@@ -42,7 +42,16 @@ const Post = () => {
       published: new Date().toISOString(),
     };
     addNewEntry("blogs", post);
-    getEntries("blogs").then((res) => dispatch(blogActions.setBlogs(res)));
+    (async () => {
+      try {
+        dispatch(blogActions.setLoading(true));
+        const res = await getEntries("blogs");
+        dispatch(blogActions.setBlogs(res));
+        dispatch(blogActions.setLoading(false));
+      } catch (error) {
+        console.log(error);
+      }
+    })();
     navigate("/");
   };
   return (

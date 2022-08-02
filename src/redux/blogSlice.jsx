@@ -5,6 +5,7 @@ const blogSlice = createSlice({
   initialState: {
     blogs: [],
     selectedBlog: "",
+    loading: false,
   },
   reducers: {
     setBlogs(state, action) {
@@ -12,6 +13,9 @@ const blogSlice = createSlice({
     },
     setSelectedBlog(state, action) {
       state.selectedBlog = action.payload;
+    },
+    setLoading(state, action) {
+      state.loading = action.payload;
     },
   },
 });
