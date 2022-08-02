@@ -12,15 +12,57 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Box } from "@mui/system";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import DefaultImage from "../assets/defaultImage.jpg";
 import { useNavigate } from "react-router-dom";
 import { blogActions } from "../redux/blogSlice";
+import { useFirestore } from "web-firebase";
+import { useState, useEffect } from "react";
 const BlogCard = ({ blog }) => {
-  const { data } = blog;
+  const { id, data } = blog;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const db = useSelector((state) => state.auth.db);
+  const { updateEntry } = useFirestore(db);
+  const userInfo = useSelector((state) => state.auth.userInfo);
 
+  //? Like Button
+  const [liked, setLiked] = useState(
+    !!data?.interaction.like.includes(userInfo.uid)
+  );
+  const [likedCount, setLikedCount] = useState(data?.interaction.like.length);
+  const handleLike = () => {
+    let newLike;
+    if (liked) {
+      newLike = data?.interaction.like.filter((like) => like !== userInfo?.uid);
+      setLiked(false);
+      setLikedCount((count) => count - 1);
+    } else {
+      newLike = !data?.interaction.like.includes(userInfo.uid)
+        ? [...data?.interaction.like, userInfo?.uid]
+        : [...data?.interaction.like];
+      setLiked(true);
+      setLikedCount((count) => count + 1);
+    }
+    updateEntry("blogs", id, {
+      ...data,
+      interaction: {
+        view: data.interaction.view,
+        share: data.interaction.share,
+        like: newLike,
+      },
+    });
+  };
+
+  //? View Count
+  const [viewCount, setViewCount] = useState();
+
+  useEffect(() => {
+    setLikedCount(data?.interaction.like.length);
+  }, [data?.interaction.like]);
+  useEffect(() => {
+    setViewCount(data?.interaction.view);
+  }, [data?.interaction.view]);
   return (
     <Card sx={{ width: 320, height: 475, borderRadius: "1rem" }}>
       <CardMedia
@@ -58,6 +100,14 @@ const BlogCard = ({ blog }) => {
             onClick={() => {
               sessionStorage.setItem("selectedBlog", JSON.stringify(blog));
               dispatch(blogActions.setSelectedBlog(blog));
+              updateEntry("blogs", id, {
+                ...data,
+                interaction: {
+                  view: viewCount + 1,
+                  share: data.interaction.share,
+                  like: data.interaction.like,
+                },
+              });
               navigate(`/${data.title}`);
             }}
           >
@@ -71,8 +121,13 @@ const BlogCard = ({ blog }) => {
         disableSpacing
       >
         <Box>
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
+          <IconButton aria-label="add to favorites" onClick={handleLike}>
+            <FavoriteIcon
+              sx={{
+                color: liked && userInfo ? "red" : "grey",
+              }}
+            />
+            <Typography variant="h6">{likedCount}</Typography>
           </IconButton>
           <IconButton aria-label="share">
             <ShareIcon />
@@ -80,7 +135,7 @@ const BlogCard = ({ blog }) => {
         </Box>
         <IconButton aria-label="add to favorites">
           <VisibilityIcon />
-          {/* {data?.interaction.view} */}
+          <Typography variant="h6">{viewCount}</Typography>
         </IconButton>
       </CardActions>
     </Card>

@@ -28,6 +28,7 @@ const Blog = () => {
   const { id, data } = savedBlog;
   const db = useSelector((state) => state.auth.db);
   const { deleteEntry, getEntries } = useFirestore(db);
+
   const handleDelete = () => {
     deleteEntry("blogs", id);
     (async () => {
@@ -43,6 +44,7 @@ const Blog = () => {
   const handleEdit = () => {
     setOpen(true);
   };
+
   return (
     <>
       {open && <EditModal open={open} setOpen={setOpen} />}
