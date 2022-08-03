@@ -47,7 +47,7 @@ const Navbar = () => {
     setAnchorElNav(event.currentTarget);
   };
   return (
-    <AppBar position="static" sx={{ paddingY: "0.5rem" }} color="secondary">
+    <AppBar position="static" sx={{ paddingY: "0.5rem" }} color="primary">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box

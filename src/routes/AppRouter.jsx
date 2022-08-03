@@ -13,6 +13,21 @@ import { authActions } from "../redux/authSlice";
 import Post from "../components/Post";
 import useBlog from "../hooks/useBlog";
 import NotFound from "../pages/NotFound";
+
+import { createTheme } from "@mui/material/styles";
+import { teal, orange } from "@mui/material/colors";
+import { ThemeProvider } from "@emotion/react";
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: teal[700],
+    },
+    secondary: {
+      main: orange[500],
+    },
+  },
+});
+
 const AppRouter = () => {
   const dispatch = useDispatch();
   const { auth, db, userInfo } = useFirebase();
@@ -20,19 +35,21 @@ const AppRouter = () => {
   const { getData } = useBlog();
   getData();
   return (
-    <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-        <Route path="setting" element={<Setting />} />
-        <Route path=":id" element={<Blog />} />
-        <Route path="post" element={<Post />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <Footer />
-    </BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="setting" element={<Setting />} />
+          <Route path=":id" element={<Blog />} />
+          <Route path="post" element={<Post />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+    </ThemeProvider>
   );
 };
 
