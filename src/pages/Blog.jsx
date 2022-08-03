@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import { useSelector } from "react-redux";
@@ -27,8 +27,9 @@ const Blog = () => {
 
   const { id, data } = savedBlog;
   const db = useSelector((state) => state.auth.db);
-  const { deleteEntry } = useFirestore(db);
-
+  const { deleteEntry, updateEntry } = useFirestore(db);
+  getData();
+  window.scroll(0, 0);
   const handleDelete = () => {
     deleteEntry("blogs", id);
     getData();
@@ -37,6 +38,40 @@ const Blog = () => {
   const handleEdit = () => {
     setOpen(true);
   };
+  const [liked, setLiked] = useState(
+    !!data?.interaction.like.includes(userInfo.uid)
+  );
+  const [likedCount, setLikedCount] = useState(data?.interaction.like.length);
+
+  const handleLike = () => {
+    let newLike;
+    if (userInfo) {
+      if (liked) {
+        newLike = data?.interaction.like.filter(
+          (like) => like !== userInfo?.uid
+        );
+        setLiked(false);
+        setLikedCount((count) => count - 1);
+      } else {
+        newLike = !data?.interaction.like.includes(userInfo.uid)
+          ? [...data?.interaction.like, userInfo?.uid]
+          : [...data?.interaction.like];
+        setLiked(true);
+        setLikedCount((count) => count + 1);
+      }
+      updateEntry("blogs", id, {
+        ...data,
+        interaction: {
+          view: data.interaction.view,
+          share: data.interaction.share,
+          like: newLike,
+        },
+      });
+    }
+  };
+  useEffect(() => {
+    setLikedCount(data?.interaction.like.length);
+  }, [data?.interaction.like]);
 
   return (
     <>
@@ -111,8 +146,13 @@ const Blog = () => {
                   </IconButton>
                 </>
               )}
-              <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
+              <IconButton aria-label="add to favorites" onClick={handleLike}>
+                <FavoriteIcon
+                  sx={{
+                    color: liked && userInfo ? "red" : "grey",
+                  }}
+                />{" "}
+                <Typography variant="h6">{likedCount}</Typography>
               </IconButton>
               <IconButton aria-label="share">
                 <ShareIcon />
@@ -120,7 +160,7 @@ const Blog = () => {
 
               <IconButton aria-label="add to favorites">
                 <VisibilityIcon />
-                {/* {data?.interaction.view} */}
+                <Typography variant="h6">{data?.interaction.view}</Typography>
               </IconButton>
             </Box>
           </Box>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -63,8 +63,8 @@ const BlogCard = ({ blog }) => {
   }, [data?.interaction.like]);
 
   //? View Count
-  const [viewCount, setViewCount] = useState(data?.interaction.view);
-  console.log(viewCount);
+  const viewCountRef = useRef(data?.interaction.view);
+
   return (
     <Card sx={{ width: 320, height: 475, borderRadius: "1rem" }}>
       <CardMedia
@@ -102,15 +102,14 @@ const BlogCard = ({ blog }) => {
             onClick={() => {
               sessionStorage.setItem("selectedBlog", JSON.stringify(blog));
               dispatch(blogActions.setSelectedBlog(blog));
-              // updateEntry("blogs", id, {
-              //   ...data,
-              //   interaction: {
-              //     view: viewCount + 1,
-              //     share: data.interaction.share,
-              //     like: data.interaction.like,
-              //   },
-              // });
-              setViewCount((viewCount) => viewCount + 1);
+              updateEntry("blogs", id, {
+                ...data,
+                interaction: {
+                  view: viewCountRef.current + 1,
+                  share: data.interaction.share,
+                  like: data.interaction.like,
+                },
+              });
               navigate(`/${data.title}`);
             }}
           >
@@ -138,7 +137,7 @@ const BlogCard = ({ blog }) => {
         </Box>
         <IconButton aria-label="add to favorites">
           <VisibilityIcon />
-          <Typography variant="h6">{viewCount}</Typography>
+          <Typography variant="h6">{viewCountRef.current}</Typography>
         </IconButton>
       </CardActions>
     </Card>
