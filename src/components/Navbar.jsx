@@ -31,15 +31,12 @@ const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -47,7 +44,7 @@ const Navbar = () => {
     setAnchorElNav(event.currentTarget);
   };
   return (
-    <AppBar position="static" sx={{ paddingY: "0.5rem" }} color="primary">
+    <AppBar position="sticky" sx={{ paddingY: "0.5rem" }} color="primary">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box

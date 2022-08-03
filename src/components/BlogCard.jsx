@@ -120,7 +120,7 @@ const BlogCard = ({ blog }) => {
                   like: data.interaction.like,
                 },
               });
-              navigate(`/${data.title}`);
+              navigate(`/detail/${id}`);
             }}
           >
             Read More
