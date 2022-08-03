@@ -21,8 +21,8 @@ const Root = styled("div")(({ theme }) => ({
   },
 }));
 const Home = () => {
+  window.scroll(0, 0);
   const loading = useSelector((state) => state.blog.loading);
-
   const blogs = useSelector((state) => state.blog.blogs);
   const [query, setQuery] = useState("");
   const queryChangeHandler = (e) => setQuery(e.target.value);

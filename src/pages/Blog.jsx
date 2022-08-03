@@ -180,8 +180,12 @@ const Blog = () => {
             component="img"
             mt={3}
             sx={{ borderRadius: "1rem" }}
-            src={data.imageURL || defaultImage}
-            alt=""
+            src={data.imageURL}
+            alt="blog-picture"
+            onError={(event) => {
+              event.target.src = defaultImage;
+              event.onerror = null;
+            }}
           />
         </Stack>
       </Container>

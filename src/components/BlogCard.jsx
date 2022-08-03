@@ -14,6 +14,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Box } from "@mui/system";
 import { useDispatch, useSelector } from "react-redux";
 import DefaultImage from "../assets/defaultImage.jpg";
+import Spinner from "../assets/spinner.gif";
 import { useNavigate } from "react-router-dom";
 import { blogActions } from "../redux/blogSlice";
 import { useFirestore } from "web-firebase";
@@ -65,13 +66,22 @@ const BlogCard = ({ blog }) => {
   //? View Count
   const viewCountRef = useRef(data?.interaction.view);
 
+  const [loaded, setLoaded] = useState(false);
+  const handleImg = (e) => {
+    setLoaded(true);
+  };
   return (
     <Card sx={{ width: 320, height: 475, borderRadius: "1rem" }}>
       <CardMedia
         component="img"
         height="200"
-        image={data?.imageURL || DefaultImage}
+        image={loaded ? data?.imageURL : Spinner}
         alt="blog-image"
+        onLoad={handleImg}
+        onError={(event) => {
+          event.target.src = DefaultImage;
+          event.onerror = null;
+        }}
       />
       <CardHeader
         avatar={
