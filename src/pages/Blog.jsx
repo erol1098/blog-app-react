@@ -39,7 +39,7 @@ const Blog = () => {
     setOpen(true);
   };
   const [liked, setLiked] = useState(
-    !!data?.interaction.like.includes(userInfo.uid)
+    !!data?.interaction.like.includes(userInfo?.uid)
   );
   const [likedCount, setLikedCount] = useState(data?.interaction.like.length);
 

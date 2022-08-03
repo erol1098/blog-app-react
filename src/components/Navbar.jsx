@@ -110,9 +110,9 @@ const Navbar = () => {
               >
                 <Typography textAlign="center">Add a post</Typography>
               </MenuItem>
-              <MenuItem>
+              {/* <MenuItem>
                 <Typography textAlign="center">About</Typography>
-              </MenuItem>
+              </MenuItem> */}
             </Menu>
           </Box>
           <Box
@@ -155,9 +155,9 @@ const Navbar = () => {
             >
               Add a post
             </Button>
-            <Button sx={{ my: 2, color: "white", display: "block" }}>
+            {/* <Button sx={{ my: 2, color: "white", display: "block" }}>
               About
-            </Button>
+            </Button> */}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">

@@ -9,6 +9,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import noResult from "../assets/no-result.gif";
 import { useSelector } from "react-redux";
 import { Container } from "@mui/system";
 import LoadingSkeleton from "../components/Skeleton";
@@ -78,6 +79,11 @@ const Home = () => {
               <BlogCard key={blog?.id} blog={blog} />
             ))}
           </Root>
+        )}
+        {filteredBlogs?.length === 0 && (
+          <Box sx={{ width: "100%" }} display="flex" justifyContent={"center"}>
+            <Box component={"img"} src={noResult} alt={"no-result-found"} />
+          </Box>
         )}
       </Box>
     </Container>

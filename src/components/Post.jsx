@@ -4,7 +4,8 @@ import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+
+import PublishIcon from "@mui/icons-material/Publish";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -14,6 +15,7 @@ import { FormControl, Select, InputLabel, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import useBlog from "../hooks/useBlog";
 
+const categories = ["general", "politics", "science", "sports", "technology"];
 const theme = createTheme();
 const Post = () => {
   const navigate = useNavigate();
@@ -57,8 +59,8 @@ const Post = () => {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
+          <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+            <PublishIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Add A Post
@@ -97,9 +99,11 @@ const Post = () => {
                 id="category"
                 defaultValue={"general"}
               >
-                <MenuItem value={"general"}>General</MenuItem>
-                <MenuItem value={"sports"}>Sports</MenuItem>
-                <MenuItem value={"politics"}>Politics</MenuItem>
+                {categories.map((category) => (
+                  <MenuItem value={category}>
+                    {category.replace(category[0], category[0].toUpperCase())}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
             <TextField
