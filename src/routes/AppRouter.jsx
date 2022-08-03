@@ -12,13 +12,12 @@ import useFirebase from "../hooks/useFirebase";
 import { authActions } from "../redux/authSlice";
 import Post from "../components/Post";
 import useBlog from "../hooks/useBlog";
-import { blogActions } from "../redux/blogSlice";
 const AppRouter = () => {
   const dispatch = useDispatch();
   const { auth, db, userInfo } = useFirebase();
   dispatch(authActions.setData({ auth, db, userInfo }));
-  const { blogs } = useBlog();
-  dispatch(blogActions.setBlogs(blogs));
+  const { getData } = useBlog();
+  getData();
   return (
     <BrowserRouter>
       <Navbar />

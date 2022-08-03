@@ -8,19 +8,19 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useFirestore } from "web-firebase";
 import { FormControl, Select, InputLabel, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { blogActions } from "../redux/blogSlice";
+import useBlog from "../hooks/useBlog";
 
 const theme = createTheme();
 const Post = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { getData } = useBlog();
   const userInfo = useSelector((state) => state.auth.userInfo);
   const db = useSelector((state) => state.auth.db);
-  const { addNewEntry, getEntries } = useFirestore(db);
+  const { addNewEntry } = useFirestore(db);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -31,9 +31,9 @@ const Post = () => {
         uid: userInfo?.uid,
       },
       interaction: {
-        like: 0,
+        like: [],
         view: 0,
-        share: 0,
+        share: [],
       },
       title: data.get("title"),
       content: data.get("content"),
@@ -42,16 +42,7 @@ const Post = () => {
       published: new Date().toISOString(),
     };
     addNewEntry("blogs", post);
-    (async () => {
-      try {
-        dispatch(blogActions.setLoading(true));
-        const res = await getEntries("blogs");
-        dispatch(blogActions.setBlogs(res));
-        dispatch(blogActions.setLoading(false));
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+    getData();
     navigate("/");
   };
   return (

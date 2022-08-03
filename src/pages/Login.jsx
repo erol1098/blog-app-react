@@ -12,19 +12,21 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useAuth } from "web-firebase";
 import { useSelector } from "react-redux";
 import { Link as LinkRouter, useNavigate } from "react-router-dom";
-
+import useBlog from "../hooks/useBlog";
 const theme = createTheme();
 
 const Login = () => {
   const auth = useSelector((state) => state.auth.auth);
-  const { signIn } = useAuth(auth);
+  const { signIn, googleAuth } = useAuth(auth);
   const navigate = useNavigate();
+  const getData = useBlog();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get("email");
     const password = data.get("password");
     signIn(email, password, navigate);
+    getData();
   };
   return (
     <ThemeProvider theme={theme}>
@@ -77,7 +79,16 @@ const Login = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Sign in
+            </Button>
+            <Button
+              type="button"
+              fullWidth
+              variant="outlined"
+              sx={{ mb: 2 }}
+              onClick={() => googleAuth(navigate)}
+            >
+              Sign in with Google
             </Button>
             <Grid container>
               <Grid item xs>

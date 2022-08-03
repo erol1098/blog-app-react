@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Typography, Divider, Avatar, IconButton } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
@@ -12,13 +12,13 @@ import defaultImage from "../assets/defaultImage.jpg";
 import { Container } from "@mui/system";
 import { useFirestore } from "web-firebase";
 import { useNavigate } from "react-router-dom";
-import { blogActions } from "../redux/blogSlice";
 import EditModal from "../components/EditModal";
+import useBlog from "../hooks/useBlog";
 
 const Blog = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { getData } = useBlog();
   const userInfo = useSelector((state) => state.auth.userInfo);
   const selectedBlog = useSelector((state) => state.blog.selectedBlog);
   const savedBlog = selectedBlog
@@ -27,18 +27,11 @@ const Blog = () => {
 
   const { id, data } = savedBlog;
   const db = useSelector((state) => state.auth.db);
-  const { deleteEntry, getEntries } = useFirestore(db);
+  const { deleteEntry } = useFirestore(db);
 
   const handleDelete = () => {
     deleteEntry("blogs", id);
-    (async () => {
-      try {
-        const res = await getEntries("blogs");
-        dispatch(blogActions.setBlogs(res));
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+    getData();
     navigate(-1);
   };
   const handleEdit = () => {

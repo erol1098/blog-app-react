@@ -164,7 +164,7 @@ const Navbar = () => {
               <IconButton onClick={handleClick} sx={{ p: 0 }}>
                 <Avatar
                   src={
-                    userInfo?.author?.photoURL ||
+                    userInfo?.photoURL ||
                     `https://ui-avatars.com/api/?name=${userInfo?.displayName?.replace(
                       " ",
                       "+"
@@ -212,7 +212,7 @@ const Navbar = () => {
               <MenuItem onClick={() => navigate("/")}>
                 <Avatar
                   src={
-                    userInfo?.author?.photoURL ||
+                    userInfo?.photoURL ||
                     `https://ui-avatars.com/api/?name=${userInfo?.displayName?.replace(
                       " ",
                       "+"
@@ -230,12 +230,7 @@ const Navbar = () => {
                   Add Account
                 </MenuItem>
               )}
-              <MenuItem onClick={() => navigate("/setting")}>
-                <ListItemIcon>
-                  <Settings fontSize="small" />
-                </ListItemIcon>
-                Settings
-              </MenuItem>
+
               {!userInfo && (
                 <MenuItem onClick={() => navigate("/login")}>
                   <ListItemIcon>
@@ -245,17 +240,25 @@ const Navbar = () => {
                 </MenuItem>
               )}
               {userInfo && (
-                <MenuItem
-                  onClick={() => {
-                    logOut();
-                    navigate("/");
-                  }}
-                >
-                  <ListItemIcon>
-                    <Logout fontSize="small" />
-                  </ListItemIcon>
-                  Logout
-                </MenuItem>
+                <>
+                  <MenuItem onClick={() => navigate("/setting")}>
+                    <ListItemIcon>
+                      <Settings fontSize="small" />
+                    </ListItemIcon>
+                    Settings
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      logOut();
+                      navigate("/");
+                    }}
+                  >
+                    <ListItemIcon>
+                      <Logout fontSize="small" />
+                    </ListItemIcon>
+                    Logout
+                  </MenuItem>
+                </>
               )}
             </Menu>
           </Box>

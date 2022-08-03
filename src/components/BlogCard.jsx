@@ -31,38 +31,40 @@ const BlogCard = ({ blog }) => {
     !!data?.interaction.like.includes(userInfo.uid)
   );
   const [likedCount, setLikedCount] = useState(data?.interaction.like.length);
+
   const handleLike = () => {
     let newLike;
-    if (liked) {
-      newLike = data?.interaction.like.filter((like) => like !== userInfo?.uid);
-      setLiked(false);
-      setLikedCount((count) => count - 1);
-    } else {
-      newLike = !data?.interaction.like.includes(userInfo.uid)
-        ? [...data?.interaction.like, userInfo?.uid]
-        : [...data?.interaction.like];
-      setLiked(true);
-      setLikedCount((count) => count + 1);
+    if (userInfo) {
+      if (liked) {
+        newLike = data?.interaction.like.filter(
+          (like) => like !== userInfo?.uid
+        );
+        setLiked(false);
+        setLikedCount((count) => count - 1);
+      } else {
+        newLike = !data?.interaction.like.includes(userInfo.uid)
+          ? [...data?.interaction.like, userInfo?.uid]
+          : [...data?.interaction.like];
+        setLiked(true);
+        setLikedCount((count) => count + 1);
+      }
+      updateEntry("blogs", id, {
+        ...data,
+        interaction: {
+          view: data.interaction.view,
+          share: data.interaction.share,
+          like: newLike,
+        },
+      });
     }
-    updateEntry("blogs", id, {
-      ...data,
-      interaction: {
-        view: data.interaction.view,
-        share: data.interaction.share,
-        like: newLike,
-      },
-    });
   };
-
-  //? View Count
-  const [viewCount, setViewCount] = useState();
-
   useEffect(() => {
     setLikedCount(data?.interaction.like.length);
   }, [data?.interaction.like]);
-  useEffect(() => {
-    setViewCount(data?.interaction.view);
-  }, [data?.interaction.view]);
+
+  //? View Count
+  const [viewCount, setViewCount] = useState(data?.interaction.view);
+  console.log(viewCount);
   return (
     <Card sx={{ width: 320, height: 475, borderRadius: "1rem" }}>
       <CardMedia
@@ -100,14 +102,15 @@ const BlogCard = ({ blog }) => {
             onClick={() => {
               sessionStorage.setItem("selectedBlog", JSON.stringify(blog));
               dispatch(blogActions.setSelectedBlog(blog));
-              updateEntry("blogs", id, {
-                ...data,
-                interaction: {
-                  view: viewCount + 1,
-                  share: data.interaction.share,
-                  like: data.interaction.like,
-                },
-              });
+              // updateEntry("blogs", id, {
+              //   ...data,
+              //   interaction: {
+              //     view: viewCount + 1,
+              //     share: data.interaction.share,
+              //     like: data.interaction.like,
+              //   },
+              // });
+              setViewCount((viewCount) => viewCount + 1);
               navigate(`/${data.title}`);
             }}
           >

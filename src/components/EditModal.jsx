@@ -13,6 +13,7 @@ import { FormControl, Select, InputLabel, MenuItem } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { useFirestore } from "web-firebase";
 import { blogActions } from "../redux/blogSlice";
+import useBlog from "../hooks/useBlog";
 
 const style = {
   position: "absolute",
@@ -32,10 +33,10 @@ const EditModal = ({ open, setOpen }) => {
   //////////////////////////////////////////////////
   const dispatch = useDispatch();
   const db = useSelector((state) => state.auth.db);
-  const { updateEntry, getEntries } = useFirestore(db);
+  const { updateEntry } = useFirestore(db);
   const selectedBlog = useSelector((state) => state.blog.selectedBlog);
-
   const { id, data } = selectedBlog;
+  const { getData } = useBlog();
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -57,19 +58,8 @@ const EditModal = ({ open, setOpen }) => {
       published: new Date().toISOString(),
     };
     updateEntry("blogs", id, post);
-
-    (async () => {
-      try {
-        dispatch(blogActions.setLoading(true));
-        const res = await getEntries("blogs");
-        dispatch(blogActions.setBlogs(res));
-        dispatch(blogActions.setLoading(false));
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-
     dispatch(blogActions.setSelectedBlog({ id, data: post }));
+    getData();
     handleClose();
   };
   /////////////////////////////////////////////////////

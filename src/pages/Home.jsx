@@ -46,6 +46,7 @@ const Home = () => {
             placeholder="Search Blogs"
             type={"search"}
             variant="outlined"
+            autoFocus
             value={query}
             onChange={queryChangeHandler}
             sx={{
