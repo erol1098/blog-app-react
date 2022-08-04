@@ -169,7 +169,9 @@ const Blog = () => {
             <Typography variant="h6" fontWeight={"bold"}>
               {data.title}
             </Typography>
-            <Typography variant="body1">{data.content}</Typography>
+            <Typography variant="body1" lineHeight={2}>
+              {data.content}
+            </Typography>
           </Box>
         </Stack>
         <Stack marginY={5} spacing={3}>

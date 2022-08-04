@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,23 +12,35 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useAuth } from "web-firebase";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-
+import useToastify from "../hooks/useToastify";
+import { ToastContainer } from "react-toastify";
+import useBlog from "../hooks/useBlog";
 const theme = createTheme();
 
 const Register = () => {
   const auth = useSelector((state) => state.auth.auth);
-  const { createUser } = useAuth(auth);
+  const { createUser, error } = useAuth(auth);
+  const { getData } = useBlog();
+
+  const { Toastify } = useToastify();
+
+  const checkError = () => {
+    Toastify("error", error?.message);
+  };
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const displayName = `${data.get("firstName")} ${data.get("lastName")}`;
-    console.log(displayName, auth);
     const email = data.get("email");
     const password = data.get("password");
     createUser(displayName, email, password, navigate);
+    getData();
   };
-
+  useEffect(() => {
+    checkError();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error]);
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -113,6 +125,17 @@ const Register = () => {
             </Grid>
           </Box>
         </Box>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </Container>
     </ThemeProvider>
   );

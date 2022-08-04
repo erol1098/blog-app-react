@@ -31,7 +31,9 @@ const theme = createTheme({
 const AppRouter = () => {
   const dispatch = useDispatch();
   const { auth, db, userInfo } = useFirebase();
-  dispatch(authActions.setData({ auth, db, userInfo }));
+  dispatch(authActions.setAuth(auth));
+  dispatch(authActions.setDb(db));
+  dispatch(authActions.setUserInfo(userInfo));
   const { getData } = useBlog();
   getData();
   return (
