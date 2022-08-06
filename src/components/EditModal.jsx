@@ -27,7 +27,7 @@ const style = {
   p: 4,
 };
 const theme = createTheme();
-
+const categories = ["general", "politics", "science", "sports", "technology"];
 const EditModal = ({ open, setOpen }) => {
   const handleClose = () => setOpen(false);
   //////////////////////////////////////////////////
@@ -119,9 +119,14 @@ const EditModal = ({ open, setOpen }) => {
                     id="category"
                     defaultValue={data.category}
                   >
-                    <MenuItem value={"general"}>General</MenuItem>
-                    <MenuItem value={"sports"}>Sports</MenuItem>
-                    <MenuItem value={"politics"}>Politics</MenuItem>
+                    {categories.map((category) => (
+                      <MenuItem value={category}>
+                        {category.replace(
+                          category[0],
+                          category[0].toUpperCase()
+                        )}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
                 <TextField

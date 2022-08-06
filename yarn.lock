@@ -9320,9 +9320,9 @@ wbuf@^1.1.0, wbuf@^1.7.3:
     minimalistic-assert "^1.0.0"
 
 web-firebase@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/web-firebase/-/web-firebase-1.2.0.tgz#695bc4a71eb4703f6bad9847d0e5bc85ddf8913f"
-  integrity sha512-OnKDrg9hSZyrSk5WUauKsnsIjL/ne5sC5A7g2fLsijL2M2+Jv9AvhyxFVfvwN+2y8DB368PYy+wOsev2DxVWTQ==
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/web-firebase/-/web-firebase-1.2.1.tgz#14d998c2a3226728863e172f891884beb90bc43e"
+  integrity sha512-7m3T7LH0F/R7PjdI/GTKkqjKAR8/2LPj9+KUTlC2FI7h+HGWr2AfpS087QPmWOgefy1VXYLMRDuiKlhcaXjarw==
 
 webidl-conversions@^3.0.0:
   version "3.0.1"

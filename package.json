@@ -16,7 +16,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-toastify": "^9.0.7",
-    "web-firebase": "^1.2.0"
+    "web-firebase": "^1.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
