@@ -48,18 +48,13 @@ const AppRouter = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          {userInfo && (
-            <>
-              <Route path="/detail/:id" element={<Blog />} />
-              <Route path="post" element={<Post />} />
-            </>
+          <Route path="/detail/:id" element={<Blog />} />
+          {userInfo ? (
+            <Route path="post" element={<Post />} />
+          ) : (
+            <Route path="post" element={<Navigate to={"/login"} />} />
           )}
-          {!userInfo && (
-            <>
-              <Route path="/detail/:id" element={<Navigate to={"/login"} />} />
-              <Route path="post" element={<Navigate to={"/login"} />} />
-            </>
-          )}
+
           <Route path="setting" element={<Setting />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />

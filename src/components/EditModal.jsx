@@ -124,8 +124,8 @@ const EditModal = ({ open, setOpen }) => {
                     id="category"
                     defaultValue={data.category}
                   >
-                    {categories.map((category) => (
-                      <MenuItem value={category}>
+                    {categories.map((category, i) => (
+                      <MenuItem key={i} value={category}>
                         {category.replace(
                           category[0],
                           category[0].toUpperCase()

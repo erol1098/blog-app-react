@@ -28,10 +28,13 @@ const Blog = () => {
   const { id, data } = savedBlog;
   const db = useSelector((state) => state.auth.db);
   const { deleteEntry, updateEntry } = useFirestore(db);
-
   const { Toastify } = useToastify();
-  getData();
-  window.scroll(0, 0);
+
+  useEffect(() => {
+    getData();
+    window.scroll(0, 0);
+  }, [getData]);
+
   const handleDelete = () => {
     deleteEntry("blogs", id);
     Toastify("info", "Post Deleted.");
