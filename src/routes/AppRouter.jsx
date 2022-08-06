@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
@@ -31,11 +31,16 @@ const theme = createTheme({
 const AppRouter = () => {
   const dispatch = useDispatch();
   const { auth, db, userInfo } = useFirebase();
+  const { getData } = useBlog();
+
+  useEffect(() => {
+    getData();
+  }, [getData]);
+
   dispatch(authActions.setAuth(auth));
   dispatch(authActions.setDb(db));
   dispatch(authActions.setUserInfo(userInfo));
-  const { getData } = useBlog();
-  getData();
+
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>

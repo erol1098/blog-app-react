@@ -237,25 +237,25 @@ const Navbar = () => {
                 </MenuItem>
               )}
               {userInfo && (
-                <>
-                  <MenuItem onClick={() => navigate("/setting")}>
-                    <ListItemIcon>
-                      <Settings fontSize="small" />
-                    </ListItemIcon>
-                    Settings
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      logOut();
-                      navigate("/");
-                    }}
-                  >
-                    <ListItemIcon>
-                      <Logout fontSize="small" />
-                    </ListItemIcon>
-                    Logout
-                  </MenuItem>
-                </>
+                <MenuItem onClick={() => navigate("/setting")}>
+                  <ListItemIcon>
+                    <Settings fontSize="small" />
+                  </ListItemIcon>
+                  Settings
+                </MenuItem>
+              )}
+              {userInfo && (
+                <MenuItem
+                  onClick={() => {
+                    logOut();
+                    navigate("/");
+                  }}
+                >
+                  <ListItemIcon>
+                    <Logout fontSize="small" />
+                  </ListItemIcon>
+                  Logout
+                </MenuItem>
               )}
             </Menu>
           </Box>
