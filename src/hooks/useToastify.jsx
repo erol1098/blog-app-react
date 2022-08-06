@@ -26,6 +26,17 @@ const useToastify = () => {
           progress: undefined,
         });
         break;
+      case "info":
+        toast.info(msg, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        break;
 
       default:
         break;

@@ -21,12 +21,14 @@ import Logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useAuth } from "web-firebase";
+import useToastify from "../hooks/useToastify";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const userInfo = useSelector((state) => state.auth.userInfo);
   const auth = useSelector((state) => state.auth.auth);
   const { logOut } = useAuth(auth);
+  const { Toastify } = useToastify();
   //? Navbar-Related Functions
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -52,7 +54,12 @@ const Navbar = () => {
             src={Logo}
             width="48px"
             alt=""
-            sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+            sx={{
+              display: { xs: "none", md: "flex" },
+              mr: 1,
+              cursor: "pointer",
+            }}
+            onClick={() => navigate("/")}
           />
           <Typography
             variant="h4"
@@ -116,8 +123,13 @@ const Navbar = () => {
             component={"img"}
             src={Logo}
             width="48px"
-            alt=""
-            sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
+            alt="logo"
+            sx={{
+              display: { xs: "flex", md: "none" },
+              mr: 1,
+              cursor: "pointer",
+            }}
+            onClick={() => navigate("/")}
           />
           <Typography
             variant="h4"
@@ -248,6 +260,7 @@ const Navbar = () => {
                 <MenuItem
                   onClick={() => {
                     logOut();
+                    Toastify("info", "Logged Out");
                     navigate("/");
                   }}
                 >

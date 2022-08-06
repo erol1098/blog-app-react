@@ -14,7 +14,7 @@ import { useFirestore } from "web-firebase";
 import { FormControl, Select, InputLabel, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import useBlog from "../hooks/useBlog";
-
+import useToastify from "../hooks/useToastify";
 const categories = ["general", "politics", "science", "sports", "technology"];
 const theme = createTheme();
 const Post = () => {
@@ -23,6 +23,8 @@ const Post = () => {
   const userInfo = useSelector((state) => state.auth.userInfo);
   const db = useSelector((state) => state.auth.db);
   const { addNewEntry } = useFirestore(db);
+  const { Toastify } = useToastify();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -45,6 +47,7 @@ const Post = () => {
     };
     addNewEntry("blogs", post);
     getData();
+    Toastify("success", "Post Published Successfully");
     navigate("/");
   };
   return (

@@ -14,7 +14,7 @@ import { useFirestore } from "web-firebase";
 import { useNavigate } from "react-router-dom";
 import EditModal from "../components/EditModal";
 import useBlog from "../hooks/useBlog";
-
+import useToastify from "../hooks/useToastify";
 const Blog = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
@@ -28,10 +28,13 @@ const Blog = () => {
   const { id, data } = savedBlog;
   const db = useSelector((state) => state.auth.db);
   const { deleteEntry, updateEntry } = useFirestore(db);
+
+  const { Toastify } = useToastify();
   getData();
   window.scroll(0, 0);
   const handleDelete = () => {
     deleteEntry("blogs", id);
+    Toastify("info", "Post Deleted.");
     getData();
     navigate(-1);
   };
@@ -151,7 +154,7 @@ const Blog = () => {
                   sx={{
                     color: liked && userInfo ? "red" : "grey",
                   }}
-                />{" "}
+                />
                 <Typography variant="h6">{likedCount}</Typography>
               </IconButton>
               <IconButton aria-label="share">
@@ -176,8 +179,6 @@ const Blog = () => {
         </Stack>
         <Stack marginY={5} spacing={3}>
           <Box
-            // display={"block"}
-            // mx={"auto"}
             maxWidth={1200}
             component="img"
             mt={3}

@@ -19,28 +19,32 @@ const theme = createTheme();
 
 const Register = () => {
   const auth = useSelector((state) => state.auth.auth);
+  const userInfo = useSelector((state) => state.auth.userInfo);
   const { createUser, error } = useAuth(auth);
   const { getData } = useBlog();
-
+  const navigate = useNavigate();
   const { Toastify } = useToastify();
 
   const checkError = () => {
     Toastify("error", error?.message);
   };
-  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const displayName = `${data.get("firstName")} ${data.get("lastName")}`;
     const email = data.get("email");
     const password = data.get("password");
-    createUser(displayName, email, password, navigate);
+    createUser(displayName, email, password);
     getData();
   };
   useEffect(() => {
     checkError();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
+  useEffect(() => {
+    userInfo && Toastify("success", "Registered Successfully");
+    userInfo && navigate("/");
+  }, [userInfo, navigate, Toastify]);
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">

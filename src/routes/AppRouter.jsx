@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Blog from "../pages/Blog";
@@ -17,6 +17,7 @@ import NotFound from "../pages/NotFound";
 import { createTheme } from "@mui/material/styles";
 import { teal, orange } from "@mui/material/colors";
 import { ThemeProvider } from "@emotion/react";
+import { ToastContainer } from "react-toastify";
 const theme = createTheme({
   palette: {
     primary: {
@@ -47,14 +48,35 @@ const AppRouter = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          {userInfo && (
+            <>
+              <Route path="/detail/:id" element={<Blog />} />
+              <Route path="post" element={<Post />} />
+            </>
+          )}
+          {!userInfo && (
+            <>
+              <Route path="/detail/:id" element={<Navigate to={"/login"} />} />
+              <Route path="post" element={<Navigate to={"/login"} />} />
+            </>
+          )}
+          <Route path="setting" element={<Setting />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
-          <Route path="setting" element={<Setting />} />
-          <Route path="/detail/:id" element={<Blog />} />
-          <Route path="post" element={<Post />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </BrowserRouter>
     </ThemeProvider>
   );

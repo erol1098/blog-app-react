@@ -13,32 +13,37 @@ import { useAuth } from "web-firebase";
 import { useSelector } from "react-redux";
 import { Link as LinkRouter, useNavigate } from "react-router-dom";
 import useBlog from "../hooks/useBlog";
-import { ToastContainer } from "react-toastify";
 import useToastify from "../hooks/useToastify";
 const theme = createTheme();
 
 const Login = () => {
   const { Toastify } = useToastify();
   const auth = useSelector((state) => state.auth.auth);
+  const userInfo = useSelector((state) => state.auth.userInfo);
   const { signIn, googleAuth, error } = useAuth(auth);
   const navigate = useNavigate();
   const { getData } = useBlog();
 
   const checkError = () => {
-    Toastify("error", error);
+    Toastify("error", error?.message);
   };
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get("email");
     const password = data.get("password");
-    signIn(email, password, navigate);
+    signIn(email, password);
     getData();
   };
   useEffect(() => {
     checkError();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
+
+  useEffect(() => {
+    userInfo && Toastify("success", "Logged In Successfully");
+    userInfo && navigate("/");
+  }, [userInfo, navigate, Toastify]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -114,17 +119,6 @@ const Login = () => {
             </Grid>
           </Box>
         </Box>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
       </Container>
     </ThemeProvider>
   );

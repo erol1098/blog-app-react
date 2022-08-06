@@ -13,6 +13,7 @@ import noResult from "../assets/no-result.gif";
 import { useSelector } from "react-redux";
 import { Container } from "@mui/system";
 import LoadingSkeleton from "../components/Skeleton";
+
 const Root = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("md")]: {
     gridTemplateColumns: "1fr 1fr",

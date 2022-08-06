@@ -14,6 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useFirestore } from "web-firebase";
 import { blogActions } from "../redux/blogSlice";
 import useBlog from "../hooks/useBlog";
+import useToastify from "../hooks/useToastify";
 
 const style = {
   position: "absolute",
@@ -37,6 +38,8 @@ const EditModal = ({ open, setOpen }) => {
   const selectedBlog = useSelector((state) => state.blog.selectedBlog);
   const { id, data } = selectedBlog;
   const { getData } = useBlog();
+  const { Toastify } = useToastify();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -59,6 +62,8 @@ const EditModal = ({ open, setOpen }) => {
     };
     updateEntry("blogs", id, post);
     dispatch(blogActions.setSelectedBlog({ id, data: post }));
+    Toastify("info", "Post Edited.");
+
     getData();
     handleClose();
   };
