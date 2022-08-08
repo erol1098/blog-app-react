@@ -113,7 +113,7 @@ const BlogCard = ({ blog }) => {
             sx={{ cursor: "pointer", textDecoration: "underline" }}
             onClick={() => {
               sessionStorage.setItem("selectedBlog", JSON.stringify(blog));
-              dispatch(blogActions.setSelectedBlog(blog));
+              dispatch(blogActions.setSelectedBlog(blog.id));
               updateEntry("blogs", id, {
                 ...data,
                 interaction: {
