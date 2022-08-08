@@ -9,7 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
+// import ShareIcon from "@mui/icons-material/Share";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Box } from "@mui/system";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,17 +33,18 @@ const BlogCard = ({ blog }) => {
   );
   const [likedCount, setLikedCount] = useState(data?.interaction.like.length);
 
+  const newLike = useRef();
   const handleLike = () => {
-    let newLike;
+    // let newLike;
     if (userInfo) {
       if (liked) {
-        newLike = data?.interaction.like.filter(
+        newLike.current = data?.interaction.like.filter(
           (like) => like !== userInfo?.uid
         );
         setLiked(false);
         setLikedCount((count) => count - 1);
       } else {
-        newLike = !data?.interaction.like.includes(userInfo.uid)
+        newLike.current = !data?.interaction.like.includes(userInfo.uid)
           ? [...data?.interaction.like, userInfo?.uid]
           : [...data?.interaction.like];
         setLiked(true);
@@ -54,7 +55,7 @@ const BlogCard = ({ blog }) => {
         interaction: {
           view: data.interaction.view,
           share: data.interaction.share,
-          like: newLike,
+          like: newLike.current,
         },
       });
     }
@@ -64,6 +65,7 @@ const BlogCard = ({ blog }) => {
   }, [data?.interaction.like]);
 
   //? View Count
+
   const viewCountRef = useRef(data?.interaction.view);
 
   const [loaded, setLoaded] = useState(false);
@@ -117,7 +119,7 @@ const BlogCard = ({ blog }) => {
                 interaction: {
                   view: viewCountRef.current + 1,
                   share: data.interaction.share,
-                  like: data.interaction.like,
+                  like: newLike.current,
                 },
               });
               navigate(`/detail/${id}`);
@@ -141,9 +143,9 @@ const BlogCard = ({ blog }) => {
             />
             <Typography variant="h6">{likedCount}</Typography>
           </IconButton>
-          <IconButton aria-label="share">
+          {/* <IconButton aria-label="share">
             <ShareIcon />
-          </IconButton>
+          </IconButton> */}
         </Box>
         <IconButton aria-label="add to favorites">
           <VisibilityIcon />

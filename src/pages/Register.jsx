@@ -13,7 +13,6 @@ import { useAuth } from "web-firebase";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import useToastify from "../hooks/useToastify";
-import { ToastContainer } from "react-toastify";
 import useBlog from "../hooks/useBlog";
 const theme = createTheme();
 
@@ -47,7 +46,7 @@ const Register = () => {
   }, [userInfo, navigate, Toastify]);
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" sx={{ minHeight: "70vh" }}>
         <CssBaseline />
         <Box
           sx={{
@@ -129,17 +128,6 @@ const Register = () => {
             </Grid>
           </Box>
         </Box>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
       </Container>
     </ThemeProvider>
   );

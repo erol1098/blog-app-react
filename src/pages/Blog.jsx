@@ -4,7 +4,7 @@ import Stack from "@mui/material/Stack";
 import { useSelector } from "react-redux";
 import { Typography, Divider, Avatar, IconButton } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
+// import ShareIcon from "@mui/icons-material/Share";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/DeleteRounded";
 import EditIcon from "@mui/icons-material/EditRounded";
@@ -160,9 +160,9 @@ const Blog = () => {
                 />
                 <Typography variant="h6">{likedCount}</Typography>
               </IconButton>
-              <IconButton aria-label="share">
+              {/* <IconButton aria-label="share">
                 <ShareIcon />
-              </IconButton>
+              </IconButton> */}
 
               <IconButton aria-label="add to favorites">
                 <VisibilityIcon />
