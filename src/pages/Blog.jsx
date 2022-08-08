@@ -43,6 +43,7 @@ const Blog = () => {
   useEffect(() => {
     getData();
     window.scroll(0, 0);
+    return () => getData();
   }, [getData]);
 
   useEffect(() => {
