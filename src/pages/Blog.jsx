@@ -67,7 +67,7 @@ const Blog = () => {
     deleteEntry("blogs", blog?.id);
     Toastify("info", "Post Deleted.");
     getData();
-    navigate(-1);
+    navigate("/");
   };
   const handleEdit = () => {
     setOpen(true);

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import BlogCard from "../components/BlogCard";
 import { styled } from "@mui/material/styles";
 import {
@@ -13,6 +13,7 @@ import noResult from "../assets/no-result.gif";
 import { useSelector } from "react-redux";
 import { Container } from "@mui/system";
 import LoadingSkeleton from "../components/Skeleton";
+import useBlog from "../hooks/useBlog";
 
 const Root = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("md")]: {
@@ -23,7 +24,7 @@ const Root = styled("div")(({ theme }) => ({
   },
 }));
 const Home = () => {
-  window.scroll(0, 0);
+  const { getData } = useBlog();
   const loading = useSelector((state) => state.blog.loading);
   const blogs = useSelector((state) => state.blog.blogs);
   const [query, setQuery] = useState("");
@@ -35,6 +36,11 @@ const Home = () => {
       ),
     [blogs, query]
   );
+  useEffect(() => {
+    getData();
+    window.scroll(0, 0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <Container maxWidth="lg">
       <Box

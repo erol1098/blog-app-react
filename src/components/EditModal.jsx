@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -36,7 +36,6 @@ const EditModal = ({ open, setOpen, blog }) => {
   const db = useSelector((state) => state.auth.db);
   const { updateEntry } = useFirestore(db);
   const { id, data } = blog;
-  const { getData } = useBlog();
   const { Toastify } = useToastify();
 
   const handleSubmit = (event) => {
@@ -61,8 +60,6 @@ const EditModal = ({ open, setOpen, blog }) => {
     };
     updateEntry("blogs", id, post);
     Toastify("info", "Post Edited.");
-
-    getData();
     navigate("/");
     handleClose();
   };
