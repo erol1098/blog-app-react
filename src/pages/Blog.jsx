@@ -108,7 +108,7 @@ const Blog = () => {
 
   return (
     <>
-      {open && <EditModal open={open} setOpen={setOpen} />}
+      {open && <EditModal open={open} setOpen={setOpen} blog={blog} />}
       <Container maxWidth="lg">
         <Stack marginX={5} marginY={5} spacing={3}>
           {!blog && <BlogSkeleton />}

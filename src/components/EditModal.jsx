@@ -10,11 +10,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { FormControl, Select, InputLabel, MenuItem } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useFirestore } from "web-firebase";
-import { blogActions } from "../redux/blogSlice";
 import useBlog from "../hooks/useBlog";
 import useToastify from "../hooks/useToastify";
+import { useNavigate } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -29,14 +29,13 @@ const style = {
 };
 const theme = createTheme();
 const categories = ["general", "politics", "science", "sports", "technology"];
-const EditModal = ({ open, setOpen }) => {
+const EditModal = ({ open, setOpen, blog }) => {
   const handleClose = () => setOpen(false);
   //////////////////////////////////////////////////
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const db = useSelector((state) => state.auth.db);
   const { updateEntry } = useFirestore(db);
-  const selectedBlog = useSelector((state) => state.blog.selectedBlog);
-  const { id, data } = selectedBlog;
+  const { id, data } = blog;
   const { getData } = useBlog();
   const { Toastify } = useToastify();
 
@@ -61,10 +60,10 @@ const EditModal = ({ open, setOpen }) => {
       published: new Date().toISOString(),
     };
     updateEntry("blogs", id, post);
-    dispatch(blogActions.setSelectedBlog({ id, data: post }));
     Toastify("info", "Post Edited.");
 
     getData();
+    navigate("/");
     handleClose();
   };
   /////////////////////////////////////////////////////
