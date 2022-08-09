@@ -112,16 +112,7 @@ const BlogCard = ({ blog }) => {
             component={"span"}
             sx={{ cursor: "pointer", textDecoration: "underline" }}
             onClick={() => {
-              sessionStorage.setItem("selectedBlog", JSON.stringify(blog));
               dispatch(blogActions.setSelectedBlog(blog.id));
-              updateEntry("blogs", id, {
-                ...data,
-                interaction: {
-                  view: viewCountRef.current + 1,
-                  share: data.interaction.share,
-                  like: newLike.current,
-                },
-              });
               navigate(`/detail/${id}`);
             }}
           >

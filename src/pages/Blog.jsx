@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import { Typography, Divider, Avatar, IconButton } from "@mui/material";
@@ -25,12 +25,10 @@ const Blog = () => {
   const { Toastify } = useToastify();
   const [blog, setBlog] = useState(null);
   const { id: selectedBlog } = useParams();
-  console.log(selectedBlog);
   useEffect(() => {
     (async () => {
       try {
         const res = await getEntries("blogs");
-        console.log(res);
         setBlog(res?.find((blog) => blog.id === selectedBlog));
       } catch (error) {
         console.log(error);
@@ -48,6 +46,20 @@ const Blog = () => {
 
   useEffect(() => {
     setLiked(!!blog?.data?.interaction.like.includes(userInfo?.uid));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blog]);
+
+  const view = useRef();
+  useEffect(() => {
+    view.current = blog?.data.interaction.view + 1;
+    updateEntry("blogs", selectedBlog, {
+      ...blog?.data,
+      interaction: {
+        view: blog?.data.interaction.view + 1,
+        share: blog?.data.interaction.share,
+        like: blog?.data.interaction.like,
+      },
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blog]);
 
@@ -80,11 +92,10 @@ const Blog = () => {
         setLiked(true);
         setLikedCount((count) => count + 1);
       }
-      console.log("newLike", newLike);
       updateEntry("blogs", selectedBlog, {
         ...blog?.data,
         interaction: {
-          view: blog?.data.interaction.view,
+          view: view.current,
           share: blog?.data.interaction.share,
           like: newLike,
         },
